@@ -35,7 +35,7 @@ LR=np.array([['AMH', 'ACVR1'],['AMH', 'AMHR2'],['BMP10', 'ACVR1']],dtype=str)
 df_ligrec = pd.DataFrame(data=LR)
 ```
 _Construct CCC networks_ \
-Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 2000 (coupling between cells with distance greater than 2000 is prohibited).
+Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 2000 (coupling between cells with distance greater than 2000 is prohibited). For example, the spot-by-spot matrix for the pair AMH (ligand) and ACVR1 (receptor)is stored in `adata.obsp['commot-example_pathway-AMH-ACVR1']`. The total sent or received signal for each pair is stored in `adata.obsm['commot-example_pathway-sum']`.
 ```
 ct.tl.spatial_communication(adata,
     pathway_name='example_pathway', df_ligrec=df_ligrec, dis_thr=2000)
