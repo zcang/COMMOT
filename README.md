@@ -13,13 +13,13 @@ Cell-cell communication network construction for spatial transcriptomics using c
 ## Usage
 **Basic usage**
 
-Import packages
+_Import packages_
 ```
 import commot
 import scanpy as sc
 import pandas as pd
 ```
-_Load a spatial dataset_
+_Load a spatial dataset_ \
 (e.g., a Visium dataset)
 ```
 adata = sc.datasets.visium_sge(sample_id='V1_Breast_Cancer_Block_A_Section_1')
