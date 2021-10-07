@@ -11,8 +11,13 @@ Cell-cell communication network construction for spatial transcriptomics using c
    In order for the R-python interface to work properly, rpy2==3.4.2 and anndata2ri==1.0.6 should be installed.
 
 ### Usage
-Basic usage \
+**Basic usage**
+Import packages
 ```
 import commot
 import scanpy as sc
+```
+Load a spatial dataset (e.g., a Visium dataset)
+```
+adata = sc.datasets.visium_sge(sample_id='V1_Breast_Cancer_Block_A_Section_1')
 ```
