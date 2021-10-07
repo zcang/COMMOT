@@ -17,8 +17,25 @@ Import packages
 ```
 import commot
 import scanpy as sc
+import pandas as pd
 ```
-Load a spatial dataset (e.g., a Visium dataset)
+_Load a spatial dataset_
+(e.g., a Visium dataset)
 ```
 adata = sc.datasets.visium_sge(sample_id='V1_Breast_Cancer_Block_A_Section_1')
+```
+Basic processing
+```
+sc.pp.normalize_total(adata, inplace=True)
+sc.pp.log1p(adata)
+```
+Specify ligand-receptor pairs
+```
+LR=np.array([['AMH', 'ACVR1'],['AMH', 'AMHR2'],['BMP10', 'ACVR1']],dtype=str)
+df_ligrec = pd.DataFrame(data=LR)
+```
+Construct CCC networks
+```
+ct.tl.spatial_communication(adata,
+    pathway_name='example_pathway', df_ligrec=df_ligrec, dis_thr=2000)
 ```
