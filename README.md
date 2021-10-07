@@ -24,17 +24,18 @@ _Load a spatial dataset_ \
 ```
 adata = sc.datasets.visium_sge(sample_id='V1_Breast_Cancer_Block_A_Section_1')
 ```
-Basic processing
+_Basic processing_
 ```
 sc.pp.normalize_total(adata, inplace=True)
 sc.pp.log1p(adata)
 ```
-Specify ligand-receptor pairs
+_Specify ligand-receptor pairs_
 ```
 LR=np.array([['AMH', 'ACVR1'],['AMH', 'AMHR2'],['BMP10', 'ACVR1']],dtype=str)
 df_ligrec = pd.DataFrame(data=LR)
 ```
-Construct CCC networks
+_Construct CCC networks_ \
+Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 2000 (coupling between cells with distance greater than 2000 is prohibited).
 ```
 ct.tl.spatial_communication(adata,
     pathway_name='example_pathway', df_ligrec=df_ligrec, dis_thr=2000)
