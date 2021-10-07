@@ -41,4 +41,5 @@ ct.tl.spatial_communication(adata,
     pathway_name='example_pathway', df_ligrec=df_ligrec, dis_thr=2000)
 ```
 **Documentation**
+
 See the documentation in `manual_html/index.html` for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
