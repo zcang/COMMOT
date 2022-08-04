@@ -17,7 +17,7 @@ Cell-cell communication network construction for spatial transcriptomics using c
 
 _Import packages_
 ```
-import commot
+import commot as ct
 import scanpy as sc
 import pandas as pd
 ```
@@ -36,12 +36,14 @@ _Specify ligand-receptor pairs_
 LR=np.array([['AMH', 'ACVR1'],['AMH', 'AMHR2'],['BMP10', 'ACVR1']],dtype=str)
 df_ligrec = pd.DataFrame(data=LR)
 ```
+(or use pairs from a ligand-receptor database `df_ligrec=ct.pp.ligand_receptor_database(database='CellChat', species='human')`.)
+
 _Construct CCC networks_ \
-Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 2000 (coupling between cells with distance greater than 2000 is prohibited). For example, the spot-by-spot matrix for the pair AMH (ligand) and ACVR1 (receptor)is stored in `adata.obsp['commot-example_pathway-AMH-ACVR1']`. The total sent or received signal for each pair is stored in `adata.obsm['commot-example_pathway-sum']`.
+Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 1000 (coupling between cells with distance greater than 1000 is prohibited). For example, the spot-by-spot matrix for the pair AMH (ligand) and ACVR1 (receptor)is stored in `adata.obsp['commot-user_database-AMH-ACVR1']`. The total sent or received signal for each pair is stored in `adata.obsm['commot-user_database-sum-sender']` and `adata.obsm['commot-user_database-sum-receiver']`.
 ```
 ct.tl.spatial_communication(adata,
-    pathway_name='example_pathway', df_ligrec=df_ligrec, dis_thr=2000)
+    pathway_name='user_database', df_ligrec=df_ligrec, dis_thr=1000)
 ```
 **Documentation**
 
-See the documentation in `manual_html/index.html` for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
+See the documentation in `docs/_build/html/index.html` for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
