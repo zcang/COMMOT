@@ -7,5 +7,13 @@ setup(
     include_package_data=True,
     description='Cell-cell communications in space of transcriptomics data via collective optimal transport.',
     author='Zixuan Cang',
-    author_email='cangzx@gmail.com'
+    author_email='cangzx@gmail.com',
+    classifiers=[
+    	"Programming Language :: Python :: 3.8",
+    	"Programming Language :: Python :: 3.9",
+    	"License :: OSI Approved :: MIT License",
+    	"Operating System :: POSIX :: Linux",
+    	"Operating System :: MacOS",
+    	"Topic :: Scientific/Engineering",
+    	"Topic :: Scientific/Engineering :: Bio-Informatics"],
 )
