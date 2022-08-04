@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>commot.pl.plot_cluster_communication_network &mdash; commot 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="commot.pl.plot_cluster_communication_dotplot" href="commot.pl.plot_cluster_communication_dotplot.html" />
+    <link rel="prev" title="commot.pl.plot_cell_communication" href="commot.pl.plot_cell_communication.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> commot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.pl">Plotting: pl</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cell_communication.html">commot.pl.plot_cell_communication</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">commot.pl.plot_cluster_communication_network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cluster_communication_dotplot.html">commot.pl.plot_cluster_communication_dotplot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_communication_dependent_genes.html">commot.pl.plot_communication_dependent_genes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_communication_impact.html">commot.pl.plot_communication_impact</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">commot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">API</a> &raquo;</li>
+      <li>commot.pl.plot_cluster_communication_network</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/commot.pl.plot_cluster_communication_network.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="commot-pl-plot-cluster-communication-network">
+<h1>commot.pl.plot_cluster_communication_network<a class="headerlink" href="#commot-pl-plot-cluster-communication-network" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="commot.pl.plot_cluster_communication_network">
+<span class="sig-prename descclassname"><span class="pre">commot.pl.</span></span><span class="sig-name descname"><span class="pre">plot_cluster_communication_network</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">adata,</span> <span class="pre">uns_names=None,</span> <span class="pre">clustering=None,</span> <span class="pre">quantile_cutoff=0.99,</span> <span class="pre">p_value_cutoff=0.05,</span> <span class="pre">self_communication_off=False,</span> <span class="pre">filename=None,</span> <span class="pre">nx_node_size=0.2,</span> <span class="pre">nx_node_cmap='Plotly',</span> <span class="pre">nx_node_cluster_cmap=None,</span> <span class="pre">nx_pos_idx=array([0,</span> <span class="pre">1]),</span> <span class="pre">nx_node_pos='cluster',</span> <span class="pre">nx_edge_width_lb_quantile=0.05,</span> <span class="pre">nx_edge_width_ub_quantile=0.95,</span> <span class="pre">nx_edge_width_min=1,</span> <span class="pre">nx_edge_width_max=4,</span> <span class="pre">nx_edge_color='node',</span> <span class="pre">nx_edge_colors=['#636EFA',</span> <span class="pre">'#EF553B',</span> <span class="pre">'#00CC96',</span> <span class="pre">'#AB63FA',</span> <span class="pre">'#FFA15A',</span> <span class="pre">'#19D3F3',</span> <span class="pre">'#FF6692',</span> <span class="pre">'#B6E880',</span> <span class="pre">'#FF97FF',</span> <span class="pre">'#FECB52'],</span> <span class="pre">nx_edge_colormap=&lt;matplotlib.colors.LinearSegmentedColormap</span> <span class="pre">object&gt;,</span> <span class="pre">nx_bg_pos=True,</span> <span class="pre">nx_bg_color='lavender',</span> <span class="pre">nx_bg_ndsize=0.05</span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.pl.plot_cluster_communication_network" title="Permalink to this definition"></a></dt>
+<dd><p>Plot cluster-cluster communication as network.</p>
+<a class="reference internal image-reference" href="../_images/cluster_communication.png"><img alt="../_images/cluster_communication.png" src="../_images/cluster_communication.png" style="width: 500pt;" /></a>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix of shape <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_var</span></code>.
+Rows correspond to cells or positions and columns to genes.</p></li>
+<li><p><strong>pathway_name</strong> – Name of the signaling pathway.</p></li>
+<li><p><strong>clustering</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Name of the clustering.</p></li>
+<li><p><strong>lr_pair</strong> – If method=’single-pair’, lr_pair is a tuple of a pair of ligand-receptor or the total
+commucation of the pathway when set to None.</p></li>
+<li><p><strong>keys</strong> – A list of keys for cluster communication as tuples (pathway_name, ligand, receptor).
+If given, pathway_name and lr_pair will be ignored.
+If more than one is given, the average will be plotted.</p></li>
+<li><p><strong>quantile_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The quantile cutoff for including an edge. Set to 1 to disable this criterion.
+The quantile_cutoff and p_value_cutoff works in the “or” logic to avoid missing
+significant signaling connections.</p></li>
+<li><p><strong>p_value_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The cutoff of p-value to plot an edge.</p></li>
+<li><p><strong>self_communication_off</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to exclude self communications in the visualization.</p></li>
+<li><p><strong>filename</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Filename for saving the figure. Set the name to end with ‘.pdf’ or ‘png’
+to specify format.</p></li>
+<li><p><strong>nx_node_size</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Size of node representing clusters.</p></li>
+<li><p><strong>nx_node_cmap</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The discrete color map to use for clusters. Choices:
+‘Plotly’, ‘Alphabet’, ‘Light24’, ‘Dark24’. Recommend to use ‘Plotly’
+for ten clusters or fewer and ‘Alphabet’ for 10-24 clusters.</p></li>
+<li><p><strong>nx_pos_idx</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – Coordinates to use for the 2D plot.</p></li>
+<li><p><strong>nx_node_pos</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – ‘cluster’, the predicted spatial location of clusters will be used.
+If None, the ‘dot’ layout from Graphviz package will be used.</p></li>
+<li><p><strong>nx_edge_width_lb_quantile</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The quantile of communication connections to set for the lower bound of edge
+width.</p></li>
+<li><p><strong>nx_edge_width_ub_quantile</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The quantile of communication connections to set for the upper bound of edge
+width.</p></li>
+<li><p><strong>nx_edge_width_min</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Minimum width for plotted edges.</p></li>
+<li><p><strong>nx_edge_width_max</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Maximum width for plotted edges.</p></li>
+<li><p><strong>nx_edge_color</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – If ‘node’, the color of an edge will be the same as the source node.
+If an array of numbers between [0,1], the nx_edge_colormap will be used
+to determine the edge colors.</p></li>
+<li><p><strong>nx_edge_colors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>) – A list of color strings when method=’multi-pair’.</p></li>
+<li><p><strong>nx_edge_colormap</strong> – The color map to use when nx_edge_color is an array of weights.</p></li>
+<li><p><strong>nx_bg_pos</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to plot the cells/positions as spatial background.
+Set to False when not using the spatial layout of clusters.</p></li>
+<li><p><strong>nx_bg_color</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Color of the spatial background.</p></li>
+<li><p><strong>nx_bg_ndsize</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Node size of the spatial background.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="commot.pl.plot_cell_communication.html" class="btn btn-neutral float-left" title="commot.pl.plot_cell_communication" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="commot.pl.plot_cluster_communication_dotplot.html" class="btn btn-neutral float-right" title="commot.pl.plot_cluster_communication_dotplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Zixuan Cang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

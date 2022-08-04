@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API &mdash; commot 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="commot.pp.infer_spatial_information" href="commot.pp.infer_spatial_information.html" />
+    <link rel="prev" title="CommOT: Spatial analysis of cell-cell communication." href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> commot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-commot.pp">Preprocessing: pp</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="commot.pp.infer_spatial_information.html">commot.pp.infer_spatial_information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pp.ligand_receptor_database.html">commot.pp.ligand_receptor_database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pp.filter_lr_database.html">commot.pp.filter_lr_database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-commot.tl">Tools: tl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#communication-inference">Communication inference</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.spatial_communication.html">commot.tl.spatial_communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.communication_direction.html">commot.tl.communication_direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.cluster_communication.html">commot.tl.cluster_communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.cluster_communication_spatial_permutation.html">commot.tl.cluster_communication_spatial_permutation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.cluster_position.html">commot.tl.cluster_position</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#downstream-analysis">Downstream analysis</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.communication_deg_detection.html">commot.tl.communication_deg_detection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.communication_deg_clustering.html">commot.tl.communication_deg_clustering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.communication_impact.html">commot.tl.communication_impact</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.group_cluster_communication.html">commot.tl.group_cluster_communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.group_cell_communication.html">commot.tl.group_cell_communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.group_communication_direction.html">commot.tl.group_communication_direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.communication_spatial_autocorrelation.html">commot.tl.communication_spatial_autocorrelation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-commot.pl">Plotting: pl</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cell_communication.html">commot.pl.plot_cell_communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cluster_communication_network.html">commot.pl.plot_cluster_communication_network</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cluster_communication_dotplot.html">commot.pl.plot_cluster_communication_dotplot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_communication_dependent_genes.html">commot.pl.plot_communication_dependent_genes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_communication_impact.html">commot.pl.plot_communication_impact</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">commot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <span class="target" id="module-commot"></span><section id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h1>
+<section id="module-commot.pp">
+<span id="preprocessing-pp"></span><h2>Preprocessing: pp<a class="headerlink" href="#module-commot.pp" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.pp.infer_spatial_information.html#commot.pp.infer_spatial_information" title="commot.pp.infer_spatial_information"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pp.infer_spatial_information</span></code></a>(adata_sc, adata_sp)</p></td>
+<td><p>Infer spatial information.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.pp.ligand_receptor_database.html#commot.pp.ligand_receptor_database" title="commot.pp.ligand_receptor_database"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pp.ligand_receptor_database</span></code></a>([database, ...])</p></td>
+<td><p>Extract ligand-receptor pairs from LR database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.pp.filter_lr_database.html#commot.pp.filter_lr_database" title="commot.pp.filter_lr_database"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pp.filter_lr_database</span></code></a>(df_ligrec, adata[, ...])</p></td>
+<td><p>Filter ligand-receptor pairs.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-commot.tl">
+<span id="tools-tl"></span><h2>Tools: tl<a class="headerlink" href="#module-commot.tl" title="Permalink to this heading"></a></h2>
+<section id="communication-inference">
+<h3>Communication inference<a class="headerlink" href="#communication-inference" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.spatial_communication.html#commot.tl.spatial_communication" title="commot.tl.spatial_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.spatial_communication</span></code></a>(adata[, ...])</p></td>
+<td><p>Infer spatial communication.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.tl.communication_direction.html#commot.tl.communication_direction" title="commot.tl.communication_direction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.communication_direction</span></code></a>(adata[, ...])</p></td>
+<td><p>Construct spatial vector fields for inferred communication.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.cluster_communication.html#commot.tl.cluster_communication" title="commot.tl.cluster_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.cluster_communication</span></code></a>(adata[, ...])</p></td>
+<td><p>Summarize cell-cell communication to cluster-cluster communication and compute p-values by permutating cell/spot labels.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.tl.cluster_communication_spatial_permutation.html#commot.tl.cluster_communication_spatial_permutation" title="commot.tl.cluster_communication_spatial_permutation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.cluster_communication_spatial_permutation</span></code></a>(adata)</p></td>
+<td><p>Infer cluster-cluster communication and compute p-value by permutating cell/spot locations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.cluster_position.html#commot.tl.cluster_position" title="commot.tl.cluster_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.cluster_position</span></code></a>(adata[, clustering, ...])</p></td>
+<td><p>Assign spatial positions to clusters.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="downstream-analysis">
+<h3>Downstream analysis<a class="headerlink" href="#downstream-analysis" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.communication_deg_detection.html#commot.tl.communication_deg_detection" title="commot.tl.communication_deg_detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.communication_deg_detection</span></code></a>(adata[, ...])</p></td>
+<td><p>Identify signaling dependent genes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.tl.communication_deg_clustering.html#commot.tl.communication_deg_clustering" title="commot.tl.communication_deg_clustering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.communication_deg_clustering</span></code></a>(df_deg, df_yhat)</p></td>
+<td><p>Cluster the communcation DE genes based on their fitted expression pattern.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.communication_impact.html#commot.tl.communication_impact" title="commot.tl.communication_impact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.communication_impact</span></code></a>(adata[, ...])</p></td>
+<td><p>Analyze impact of communication.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.tl.group_cluster_communication.html#commot.tl.group_cluster_communication" title="commot.tl.group_cluster_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.group_cluster_communication</span></code></a>(adata[, ...])</p></td>
+<td><p>Idenfitify groups of cluster-cluster communication with similar pattern.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.group_cell_communication.html#commot.tl.group_cell_communication" title="commot.tl.group_cell_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.group_cell_communication</span></code></a>(adata[, keys, ...])</p></td>
+<td><p>Idenfitify groups of cell-cell communication with similar pattern.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.tl.group_communication_direction.html#commot.tl.group_communication_direction" title="commot.tl.group_communication_direction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.group_communication_direction</span></code></a>(adata[, ...])</p></td>
+<td><p>Idenfitify groups of communication directions with similar pattern.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.communication_spatial_autocorrelation.html#commot.tl.communication_spatial_autocorrelation" title="commot.tl.communication_spatial_autocorrelation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.communication_spatial_autocorrelation</span></code></a>(adata)</p></td>
+<td><p>Spatial autocorrelation of communication directions.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="module-commot.pl">
+<span id="plotting-pl"></span><h2>Plotting: pl<a class="headerlink" href="#module-commot.pl" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.pl.plot_cell_communication.html#commot.pl.plot_cell_communication" title="commot.pl.plot_cell_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pl.plot_cell_communication</span></code></a>(adata[, ...])</p></td>
+<td><p>Plot cell-cell communication in space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.pl.plot_cluster_communication_network.html#commot.pl.plot_cluster_communication_network" title="commot.pl.plot_cluster_communication_network"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pl.plot_cluster_communication_network</span></code></a>(adata)</p></td>
+<td><p>Plot cluster-cluster communication as network.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.pl.plot_cluster_communication_dotplot.html#commot.pl.plot_cluster_communication_dotplot" title="commot.pl.plot_cluster_communication_dotplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pl.plot_cluster_communication_dotplot</span></code></a>(adata)</p></td>
+<td><p>Plot cluster-cluster communication through multiple ligand-receptor pairs as dotplot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="commot.pl.plot_communication_dependent_genes.html#commot.pl.plot_communication_dependent_genes" title="commot.pl.plot_communication_dependent_genes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pl.plot_communication_dependent_genes</span></code></a>(...[, ...])</p></td>
+<td><p>Plot smoothed gene expression of the detected communication-dependent genes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="commot.pl.plot_communication_impact.html#commot.pl.plot_communication_impact" title="commot.pl.plot_communication_impact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pl.plot_communication_impact</span></code></a>(df_impact[, ...])</p></td>
+<td><p>Plot communication impact obtained by running <code class="docutils literal notranslate"><span class="pre">tl.communication_impact</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="CommOT: Spatial analysis of cell-cell communication." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="commot.pp.infer_spatial_information.html" class="btn btn-neutral float-right" title="commot.pp.infer_spatial_information" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Zixuan Cang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

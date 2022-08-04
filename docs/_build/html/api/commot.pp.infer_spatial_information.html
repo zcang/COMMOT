@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>commot.pp.infer_spatial_information &mdash; commot 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="commot.tl.spatial_communication" href="commot.tl.spatial_communication.html" />
+    <link rel="prev" title="API" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> commot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">commot.pp.infer_spatial_information</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pl">Plotting: pl</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">commot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">API</a> &raquo;</li>
+      <li>commot.pp.infer_spatial_information</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/commot.pp.infer_spatial_information.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="commot-pp-infer-spatial-information">
+<h1>commot.pp.infer_spatial_information<a class="headerlink" href="#commot-pp-infer-spatial-information" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="commot.pp.infer_spatial_information">
+<span class="sig-prename descclassname"><span class="pre">commot.pp.</span></span><span class="sig-name descname"><span class="pre">infer_spatial_information</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata_sc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adata_sp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_sc_sp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_sc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_sp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ot_alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ot_rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ot_epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_pred_prone</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loc_pred_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.pp.infer_spatial_information" title="Permalink to this definition"></a></dt>
+<dd><p>Infer spatial information.</p>
+<p>Given a pair of spatial data and scRNA-seq data, estimate spatial origin
+of scRNA-seq data and impute gene expression for spatial data <a class="reference internal" href="#cang2020" id="id1"><span>[Cang2020]</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata_sc</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix for scRNA-seq data of shape <code class="docutils literal notranslate"><span class="pre">n_obs(sc)</span></code> × <code class="docutils literal notranslate"><span class="pre">n_vars(sc)</span></code>.
+Rows corresponds to cells and columns to genes.</p></li>
+<li><p><strong>adata_sp</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix for spatial data of shape <code class="docutils literal notranslate"><span class="pre">n_obs(sp)</span></code> × <code class="docutils literal notranslate"><span class="pre">n_vars(sp)</span></code>.
+Rows corresponds to positions and columns to genes.</p></li>
+<li><p><strong>cost_sc_sp</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – The dissimilarity matrix between scRNA-seq data and spatial data of shape <code class="docutils literal notranslate"><span class="pre">n_obs(sc)</span></code> × <code class="docutils literal notranslate"><span class="pre">n_obs(sp)</span></code>.
+If not given, 1 - Spearman’s r on common genes is used.</p></li>
+<li><p><strong>cost_sc</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – The dissimilarity matrix within scRNA-seq data of shape <code class="docutils literal notranslate"><span class="pre">n_obs(sc)</span></code> × <code class="docutils literal notranslate"><span class="pre">n_obs(sc)</span></code>.
+Only needed when structured optimal transport is used (ot_alpha &gt; 0).
+If not given, the Euclidean distance in PCA space is used.</p></li>
+<li><p><strong>cost_sp</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]) – The distance matrix within spatial data of shape <code class="docutils literal notranslate"><span class="pre">n_obs(sp)</span></code> × <code class="docutils literal notranslate"><span class="pre">n_obs(sp)</span></code>.
+Only needed when structured optimal transport is used (ot_alpha &gt; 0).
+If not given, the spatial distance among spatial locations is used.</p></li>
+<li><p><strong>ot_alpha</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Weight for the structured component in optimal transport in [0,1].</p></li>
+<li><p><strong>ot_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Marginal relaxtion term (&gt;0). Traditional OT when ot_rho=inf.</p></li>
+<li><p><strong>ot_epsilon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Entropy regularization term (&gt;0). A higher value will generate a denser mapping matrix.</p></li>
+<li><p><strong>exp_pred_prone</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The percentage of cells with low weights to ignore when predicing gene expression for each spatial data.
+A higher percentage will increase the sparseness of the predicted spatial data due to the sparseness in the scRNA-seq data.</p></li>
+<li><p><strong>loc_pred_k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of top spatial matches for predicting spatial origin of cells.</p></li>
+<li><p><strong>return_gamma</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to return the optimal transport plan (gamma matrix)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>adata_sc_pred</strong> (<em>anndata.AnnData</em>) – The scRNA-seq data with predicted spatial origins in <code class="docutils literal notranslate"><span class="pre">.obsm['spatial']</span></code>.</p></li>
+<li><p><strong>adata_sp_pred</strong> (<em>anndata.AnnData</em>) – The spatial data with imputed gene expression.</p></li>
+<li><p><strong>gamma</strong> (<em>np.ndarray</em>) – The connectivity matrix between scRNA-seq data and spatial data which is used as weights to generate the predicted datasets adata_sc_pred and adata_sp_pred.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="cang2020"><span class="brackets"><a class="fn-backref" href="#id1">Cang2020</a></span></dt>
+<dd><p>Cang, Z., &amp; Nie, Q. (2020). Inferring spatial and signaling
+relationships between cells from single cell transcriptomic data.
+Nature communications, 11(1), 1-13.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="commot.tl.spatial_communication.html" class="btn btn-neutral float-right" title="commot.tl.spatial_communication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Zixuan Cang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

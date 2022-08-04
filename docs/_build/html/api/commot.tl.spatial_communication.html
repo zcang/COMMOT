@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>commot.tl.spatial_communication &mdash; commot 0.1 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="commot.tl.communication_direction" href="commot.tl.communication_direction.html" />
+    <link rel="prev" title="commot.pp.filter_lr_database" href="commot.pp.filter_lr_database.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> commot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#communication-inference">Communication inference</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">commot.tl.spatial_communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.communication_direction.html">commot.tl.communication_direction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.cluster_communication.html">commot.tl.cluster_communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.cluster_communication_spatial_permutation.html">commot.tl.cluster_communication_spatial_permutation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="commot.tl.cluster_position.html">commot.tl.cluster_position</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#downstream-analysis">Downstream analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pl">Plotting: pl</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">commot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">API</a> &raquo;</li>
+      <li>commot.tl.spatial_communication</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/commot.tl.spatial_communication.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="commot-tl-spatial-communication">
+<h1>commot.tl.spatial_communication<a class="headerlink" href="#commot-tl-spatial-communication" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="commot.tl.spatial_communication">
+<span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">spatial_communication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_ligrec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathway_sum</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric_rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric_delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dis_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euc'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cot_eps_p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cot_eps_mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cot_eps_nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cot_rho</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cot_nitermax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cot_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.25,</span> <span class="pre">0.25,</span> <span class="pre">0.25,</span> <span class="pre">0.25)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smth_eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smth_nu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smth_kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.spatial_communication" title="Permalink to this definition"></a></dt>
+<dd><p>Infer spatial communication.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix of shape <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_var</span></code>.
+Rows correspond to cells or spots and columns to genes.
+If the spatial distance is absent in <code class="docutils literal notranslate"><span class="pre">.obsp['spatial_distance']</span></code>, Euclidean distance determined from <code class="docutils literal notranslate"><span class="pre">.obsm['spatial']</span></code> will be used.</p></li>
+<li><p><strong>database_name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Name of the ligand-receptor interaction database. Will be included in the keywords for anndata slots.</p></li>
+<li><p><strong>df_ligrec</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>]) – A data frame where each row corresponds to a ligand-receptor pair with ligands, receptors, and the associated signaling pathways in the three columns, respectively.</p></li>
+<li><p><strong>pathway_sum</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to sum over all ligand-receptor pairs of each pathway.</p></li>
+<li><p><strong>heteromeric</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether the ligands or receptors are made of heteromeric complexes.</p></li>
+<li><p><strong>heteromeric_rule</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Use either ‘min’ (minimum) or ‘ave’ (average) expression of the components as the level for the heteromeric complex.</p></li>
+<li><p><strong>heteromeric_delimiter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The character in ligand and receptor names separating individual components.</p></li>
+<li><p><strong>dis_thr</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – The threshold of spatial distance of signaling.</p></li>
+<li><p><strong>cost_scale</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>]) – Weight coefficients of the cost matrix for each ligand-receptor pair, e.g. cost_scale[(‘ligA’,’recA’)] specifies weight for the pair ligA and recA.
+If None, all pairs have the same weight.</p></li>
+<li><p><strong>cost_type</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – If ‘euc’, the original Euclidean distance will be used as cost matrix. If ‘euc_square’, the square of the Euclidean distance will be used.</p></li>
+<li><p><strong>cot_eps_p</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The coefficient of entropy regularization for transport plan.</p></li>
+<li><p><strong>cot_eps_mu</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – The coefficient of entropy regularization for untransported source (ligand). Set to equal to cot_eps_p for fast algorithm.</p></li>
+<li><p><strong>cot_eps_nu</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – The coefficient of entropy regularization for unfulfilled target (receptor). Set to equal to cot_eps_p for fast algorithm.</p></li>
+<li><p><strong>cot_rho</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The coefficient of penalty for unmatched mass.</p></li>
+<li><p><strong>cot_nitermax</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Maximum iteration for collective optimal transport algorithm.</p></li>
+<li><p><strong>cot_weights</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – A tuple of four weights that add up to one. The weights corresponds to four setups of collective optimal transport:
+1) all ligands-all receptors, 2) each ligand-all receptors, 3) all ligands-each receptor, 4) each ligand-each receptor.</p></li>
+<li><p><strong>smooth</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to (spatially) smooth the gene expression for identifying more global signaling trend.</p></li>
+<li><p><strong>smth_eta</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Kernel bandwidth for smoothing</p></li>
+<li><p><strong>smth_nu</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Kernel sharpness for smoothing</p></li>
+<li><p><strong>smth_kernel</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – ‘exp’ exponential kernel. ‘lorentz’ Lorentz kernel.</p></li>
+<li><p><strong>copy</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to return a copy of the <code class="xref py py-class docutils literal notranslate"><span class="pre">anndata.AnnData</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>adata</strong> – Signaling matrices are added to <code class="docutils literal notranslate"><span class="pre">.obsp</span></code>, e.g., for a LR interaction database named “databaseX”,
+<code class="docutils literal notranslate"><span class="pre">.obsp['commot-databaseX-ligA-recA']</span></code>
+is a <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> matrix with the <em>ij</em> th entry being the “score” of
+cell <em>i</em> sending signal to cell <em>j</em> through ligA and recA.
+The marginal sums (sender and receiver) of the signaling matrices are stored in <code class="docutils literal notranslate"><span class="pre">.obsm['commot-databaseX-sum-sender']</span></code> and <code class="docutils literal notranslate"><span class="pre">.obsm['commot-databaseX-sum-receiver']</span></code>.
+Metadata of the analysis is added to <code class="docutils literal notranslate"><span class="pre">.uns['commot-databaseX-info']</span></code>.
+If copy=True, return the AnnData object and return None otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>anndata.AnnData</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">anndata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">commot</span> <span class="k">as</span> <span class="nn">ct</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a toy data with four cells and four genes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span> <span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;LigA&#39;</span><span class="p">,</span><span class="s1">&#39;RecA&#39;</span><span class="p">,</span><span class="s1">&#39;RecB&#39;</span><span class="p">,</span><span class="s1">&#39;RecC&#39;</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;spatial&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]],</span> <span class="nb">float</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create a toy ligand-receptor database with two pairs sharing the same ligand</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_ligrec</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="s1">&#39;LigA&#39;</span><span class="p">,</span><span class="s1">&#39;RecA_RecB&#39;</span><span class="p">],[</span><span class="s1">&#39;LigA&#39;</span><span class="p">,</span><span class="s1">&#39;RecC&#39;</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df_ligrec</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="s1">&#39;LigA&#39;</span><span class="p">,</span><span class="s1">&#39;RecA_RecB&#39;</span><span class="p">,</span><span class="s1">&#39;PathwayA&#39;</span><span class="p">],[</span><span class="s1">&#39;LigA&#39;</span><span class="p">,</span><span class="s1">&#39;RecC&#39;</span><span class="p">,</span><span class="s1">&#39;PathwayA&#39;</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># infer CCC with a distance threshold of 1.1. Due the threshold, the last cell won&#39;t be communicating with other cells.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ct</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">spatial_communication</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">database_name</span><span class="o">=</span><span class="s1">&#39;toyDB&#39;</span><span class="p">,</span><span class="n">df_ligrec</span><span class="o">=</span><span class="n">df_ligrec</span><span class="p">,</span> <span class="n">pathway_sum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">heteromeric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dis_thr</span><span class="o">=</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adata</span>
+<span class="go">AnnData object with n_obs × n_vars = 4 × 4</span>
+<span class="go">    uns: &#39;commot-toyDB-info&#39;</span>
+<span class="go">    obsm: &#39;spatial&#39;, &#39;commot-toyDB-sum-sender&#39;, &#39;commot-toyDB-sum-receiver&#39;</span>
+<span class="go">    obsp: &#39;commot-toyDB-LigA-RecA_RecB&#39;, &#39;commot-toyDB-LigA-RecC&#39;, &#39;commot-toyDB-PathwayA&#39;, &#39;commot-toyDB-total-total&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsp</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-LigA-RecA_RecB&#39;</span><span class="p">])</span>
+<span class="go">(0, 2)      0.600000000000005</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsp</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-LigA-RecC&#39;</span><span class="p">])</span>
+<span class="go">(0, 2)      0.9000000000039632</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-sum-receiver&#39;</span><span class="p">])</span>
+<span class="go">r-LigA-RecA_RecB  r-LigA-RecC  r-total-total  r-PathwayA</span>
+<span class="go">0               0.0          0.0            0.0         0.0</span>
+<span class="go">1               0.0          0.0            0.0         0.0</span>
+<span class="go">2               0.6          0.9            1.5         1.5</span>
+<span class="go">3               0.0          0.0            0.0         0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-sum-sender&#39;</span><span class="p">])</span>
+<span class="go">s-LigA-RecA_RecB  s-LigA-RecC  s-total-total  s-PathwayA</span>
+<span class="go">0               0.6          0.9            1.5         1.5</span>
+<span class="go">1               0.0          0.0            0.0         0.0</span>
+<span class="go">2               0.0          0.0            0.0         0.0</span>
+<span class="go">3               0.0          0.0            0.0         0.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsp</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-PathwayA&#39;</span><span class="p">])</span>
+<span class="go">(0, 2)      1.5000000000039682</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsp</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-total-total&#39;</span><span class="p">])</span>
+<span class="go">(0, 2)      1.5000000000039682</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">adata</span><span class="o">.</span><span class="n">uns</span><span class="p">[</span><span class="s1">&#39;commot-toyDB-info&#39;</span><span class="p">]</span>
+<span class="go">{&#39;df_ligrec&#39;:   ligand   receptor   pathway</span>
+<span class="go">0   LigA  RecA_RecB  PathwayA</span>
+<span class="go">1   LigA       RecC  PathwayA, &#39;distance_threshold&#39;: 1.1}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="commot.pp.filter_lr_database.html" class="btn btn-neutral float-left" title="commot.pp.filter_lr_database" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="commot.tl.communication_direction.html" class="btn btn-neutral float-right" title="commot.tl.communication_direction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Zixuan Cang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
