@@ -6,7 +6,7 @@ pandas==1.4.1
 plotly==5.3.1
 pot==0.7.0
 pysal==2.5.0
-pytest=6.2.5
+pytest==6.2.5
 python-igraph==0.9.9
 python-louvain==0.15
 rpy2==3.4.2
