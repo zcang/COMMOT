@@ -59,16 +59,18 @@ def infer_spatial_information(
     cost_sp
         The distance matrix within spatial data of shape ``n_obs(sp)`` × ``n_obs(sp)``.
         Only needed when structured optimal transport is used (ot_alpha > 0).
+        If not given, the spatial distance among spatial locations is used.
     ot_alpha
         Weight for the structured component in optimal transport in [0,1]. 
     ot_rho
         Marginal relaxtion term (>0). Traditional OT when ot_rho=inf.
     ot_epsilon
-        Entropy regularization term (>0).
+        Entropy regularization term (>0). A higher value will generate a denser mapping matrix.
     exp_pred_prone
-        The percentage of cells with low weights to ignore when predicing gene expression for each spatial data.
+        The percentage of cells with low weights to ignore when predicing gene expression for each spatial data. 
+        A higher percentage will increase the sparseness of the predicted spatial data due to the sparseness in the scRNA-seq data.
     loc_pred_k
-        Number of top spatial matches for predicting spatial origin of cells.
+        Number of top spatial matches for predicting spatial origin of cells. 
     return_gamma
         Whether to return the optimal transport plan (gamma matrix)
 
@@ -79,6 +81,7 @@ def infer_spatial_information(
     adata_sp_pred : anndata.AnnData
         The spatial data with imputed gene expression.
     gamma : np.ndarray
+        The connectivity matrix between scRNA-seq data and spatial data which is used as weights to generate the predicted datasets adata_sc_pred and adata_sp_pred.
 
 
     References

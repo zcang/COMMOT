@@ -27,17 +27,24 @@ from .._utils import leiden_clustering
 
 def plot_cell_communication(
     adata: anndata.AnnData,
+    database_name: str = None,
     pathway_name: str = None,
     lr_pair = None,
     keys = None,
     plot_method: str = "cell",
+    background: str = "summary",
+    background_legend: bool=False,
+    clustering: str = None,
     summary: str = "sender",
     cmap: str = "coolwarm",
+    cluster_cmap: dict = None,
     pos_idx: np.ndarray = np.array([0,1],int),
     top_k: int = 5,
     interp_k: int = 5,
     ndsize: float = 1,
     scale: float = 1.0,
+    normalize_v: bool = False,
+    normalize_v_quantile: float = 0.95,
     arrow_color: str = "#333333",
     grid_density: float = 1.0,
     grid_knn: int = None,
@@ -74,11 +81,16 @@ def plot_cell_communication(
         'cell' plot vectors on individual cells. 
         'grid' plot interpolated vectors on regular grids.
         'stream' streamline plot.
+    background
+        'summary' scatter plot with color representing total sent or received signal.
+        'image' the image in Visium data.
+        'cluster' scatter plot with color representing cell clusters.
     summary
         'sender' node color represents sender weight.
         'receiver' node color represents receiver weight.
     cmap
-        matplotlib colormap name for node summary.
+        matplotlib colormap name for node summary if numerical.
+        plotly colormap name for node color if summary is 'cluster'
     pos_idx
         The coordinates to use for plotting (2D plot).
     top_k
@@ -101,25 +113,37 @@ def plot_cell_communication(
         signal_sum = signal_sum / float( len( keys ) )
     elif keys is None:
         if not lr_pair is None:
-            lig = lr_pair[0]; rec = lr_pair[1]
-        elif lr_pair is None:
-            lig = 'total'; rec = 'total'
+            vf_name = database_name+'-'+lr_pair[0]+'-'+lr_pair[1]
+            sum_name = lr_pair[0]+'-'+lr_pair[1]
+        elif not pathway_name is None:
+            vf_name = database_name+'-'+pathway_name
+            sum_name = pathway_name
+        else:
+            vf_name = database_name+'-total-total'
+            sum_name = 'total-total'
         if summary == 'sender':
-            V = adata.obsm['commot_sender_vf-'+pathway_name+'-'+lig+'-'+rec][:,pos_idx]
-            signal_sum = adata.obsm['commot-'+pathway_name+"-sum"]['sender-'+lig+'-'+rec]
+            V = adata.obsm['commot_sender_vf-'+vf_name][:,pos_idx]
+            signal_sum = adata.obsm['commot-'+database_name+"-sum-sender"]['s-'+sum_name]
         elif summary == 'receiver':
-            V = adata.obsm['commot_receiver_vf-'+pathway_name+'-'+lig+'-'+rec][:,pos_idx]
-            signal_sum = adata.obsm['commot-'+pathway_name+"-sum"]['receiver-'+lig+'-'+rec]
+            V = adata.obsm['commot_receiver_vf-'+vf_name][:,pos_idx]
+            signal_sum = adata.obsm['commot-'+database_name+"-sum-receiver"]['r-'+sum_name]
 
     if ax is None:
         fig, ax = plt.subplots()
+    if normalize_v:
+        V = V / np.quantile(np.linalg.norm(V, axis=1), normalize_v_quantile)
     plot_cell_signaling(
         adata.obsm["spatial"][:,pos_idx],
         V,
         signal_sum,
         cmap = cmap,
+        cluster_cmap = cluster_cmap,
         k = top_k,
         plot_method = plot_method,
+        background = background,
+        clustering = clustering,
+        background_legend = background_legend,
+        adata = adata,
         summary = summary,
         scale = scale,
         ndsize = ndsize,
@@ -133,22 +157,22 @@ def plot_cell_communication(
         stream_density = stream_density,
         stream_linewidth = stream_linewidth,
         stream_cutoff_perc = 5,
-        ax = ax
+        ax = ax,
+        fig = fig,
     )
     return ax
 
 def plot_cluster_communication_network(
     adata: anndata.AnnData,
-    pathway_name: str = None,
+    uns_names: list = None,
     clustering: str = None,
-    lr_pair = None,
-    keys = None,
     quantile_cutoff: float = 0.99,
     p_value_cutoff: float = 0.05,
     self_communication_off: bool = False,
     filename: str = None,
     nx_node_size: float = 0.2,
     nx_node_cmap: str = "Plotly",
+    nx_node_cluster_cmap: dict = None,
     nx_pos_idx: np.ndarray = np.array([0,1],int),
     nx_node_pos: str = "cluster",
     nx_edge_width_lb_quantile: float = 0.05,
@@ -235,42 +259,20 @@ def plot_cluster_communication_network(
 
     """
     
-    if not keys is None:
-        X_tmp = adata.uns['commot_cluster-'+keys[0][0]+'-'+clustering+'-'+keys[0][1]+'-'+keys[0][2]]['communication_matrix']
-        X = np.zeros_like(X_tmp.values)
-        labels = list( X_tmp.columns.values )
-        for key in keys:
-            pathway, lig, rec = key
-            X_tmp = adata.uns['commot_cluster-'+pathway+'-'+clustering+'-'+lig+'-'+rec]['communication_matrix'].values.copy()
-            p_values = adata.uns['commot_cluster-'+pathway+'-'+clustering+'-total-total']['communication_pvalue'].values.copy()
-            if not quantile_cutoff is None:
-                cutoff = np.quantile(X_tmp.reshape(-1), quantile_cutoff)
-            else:
-                cutoff = np.inf
-            tmp_mask = ( X_tmp < cutoff ) * ( p_values > p_value_cutoff )
-            X_tmp[tmp_mask] = 0
-            X = X + X_tmp
-        X = X / float( len( keys ) )
-    elif keys is None:
-        if lr_pair is None:
-            X = adata.uns['commot_cluster-'+pathway_name+'-'+clustering+'-total-total']['communication_matrix'].copy()
-            p_values = adata.uns['commot_cluster-'+pathway_name+'-'+clustering+'-total-total']['communication_pvalue'].copy()
-            labels = list(X.columns.values)
-            X = np.array( X.values, float )
-            p_values = np.array( p_values, float )
-        elif isinstance(lr_pair, tuple):
-            lig = lr_pair[0]; rec = lr_pair[1]
-            X = adata.uns['commot_cluster-'+pathway_name+'-'+clustering+'-'+lig+'-'+rec]['communication_matrix'].copy()
-            p_values = adata.uns['commot_cluster-'+pathway_name+'-'+clustering+'-'+lig+'-'+rec]['communication_pvalue'].copy()
-            labels = list(X.columns.values)
-            X = np.array( X.values, float )
-            p_values = np.array( p_values, float )
+    X_tmp = adata.uns[uns_names[0]]['communication_matrix']
+    labels = list( X_tmp.columns.values )
+    X = np.zeros_like(X_tmp.values, float)
+    for i in range(len(uns_names)):
+        X_tmp = adata.uns[uns_names[i]]['communication_matrix'].values
+        p_values_tmp = adata.uns[uns_names[i]]['communication_pvalue'].values
         if not quantile_cutoff is None:
-            cutoff = np.quantile(X.reshape(-1), quantile_cutoff)
+            cutoff = np.quantile(X_tmp.reshape(-1), quantile_cutoff)
         else:
             cutoff = np.inf
-        tmp_mask = ( X < cutoff ) * ( p_values > p_value_cutoff )
-        X[tmp_mask] = 0
+        tmp_mask = ( X_tmp < cutoff ) * ( p_values_tmp > p_value_cutoff )
+        X_tmp[tmp_mask] = 0
+        X = X + X_tmp
+    X = X / len(uns_names)
 
     if nx_node_pos == "cluster":
         node_pos = [adata.uns["cluster_pos-"+clustering][labels[i]] for i in range(len(labels)) ]
@@ -292,6 +294,7 @@ def plot_cluster_communication_network(
         filename = filename,
         node_size = nx_node_size,
         node_colormap = nx_node_cmap,
+        node_cluster_colormap = nx_node_cluster_cmap,
         node_pos = node_pos,
         edge_width_lb_quantile = nx_edge_width_lb_quantile,
         edge_width_ub_quantile = nx_edge_width_ub_quantile,
@@ -305,10 +308,15 @@ def plot_cluster_communication_network(
     )
 
 
-    cluster_cmap = get_cmap_qualitative(nx_node_cmap)
     legend_elements = []
-    for i in range(len(labels)):
-        legend_elements.append(Line2D([0],[0], marker='o',color='w', markerfacecolor=cluster_cmap[i], label=labels[i], markersize=10))
+    if nx_node_cluster_cmap is None:
+        cluster_cmap = get_cmap_qualitative(nx_node_cmap)
+        for i in range(len(labels)):
+            legend_elements.append(Line2D([0],[0], marker='o',color='w', markerfacecolor=cluster_cmap[i], label=labels[i], markersize=10))
+    elif not nx_node_cluster_cmap is None:
+        for i in range(len(labels)):
+            legend_elements.append(Line2D([0],[0], marker='o',color='w', markerfacecolor=nx_node_cluster_cmap[labels[i]], label=labels[i], markersize=10))
+    
     fig, ax = plt.subplots()
     tmp_filename,tmp_type = filename.split('.')
     ax.legend(handles=legend_elements, loc='center')
@@ -471,13 +479,13 @@ def plot_communication_impact(
         for i in range(len(index_names)):
             index_name = index_names[i]
             tmp_n = min(len(index_name), 8)
-            if index_name[:tmp_n] == 'receiver':
+            if index_name[0] == 'r':
                 tmp_idx.append(i)
     elif summary == 'sender':
         for i in range(len(index_names)):
             index_name = index_names[i]
             tmp_n = min(len(index_name), 6)
-            if index_name[:tmp_n] == 'sender':
+            if index_name[0] == 's':
                 tmp_idx.append(i)
     elif summary is None:
         tmp_idx = [i for i in range(len(index_names))]
@@ -561,8 +569,19 @@ class pvalueNormalize(mpl.colors.Normalize):
         y = (value_log10 - left) / (right - left)
         return y
 
+def plot_cluster_cluster_communication_dotplot(
+    df_comm,
+    df_p_value,
+    sig_p = 0.05,
+    vmin_quantile = 0.1,
+    vmax_quantile = 0.99
+):
+    m,n = df_comm.shape
+
+
 def plot_cluster_communication_dotplot(
     adata: anndata.AnnData,
+    database_name: str = None,
     pathway_name: str = None,
     clustering: str = None,
     lr_pair = None,
@@ -657,7 +676,7 @@ def plot_cluster_communication_dotplot(
                 keys.append(key)
             keys.append( (pathway,'total','total') )
     
-    X_tmp = adata.uns['commot_cluster-'+keys[0][0]+'-'+clustering+'-'+keys[0][1]+'-'+keys[0][2]]['communication_matrix']
+    X_tmp = adata.uns['commot_cluster-'+clustering+'-'+keys[0][0]+'-'+keys[0][1]+'-'+keys[0][2]]['communication_matrix']
     labels = list( X_tmp.columns.values )
     name_matrix = np.empty([len(labels), len(labels)], object)
     for i in range(len(labels)):
@@ -674,8 +693,8 @@ def plot_cluster_communication_dotplot(
             y_names.append(key[0]+':'+key[1]+'->'+key[2])
         else:
             y_names.append(key[1]+'->'+key[2])
-        S_tmp = adata.uns['commot_cluster-%s-%s-%s-%s' % (key[0], clustering, key[1], key[2])]['communication_matrix'].values
-        P_tmp = adata.uns['commot_cluster-%s-%s-%s-%s' % (key[0], clustering, key[1], key[2])]['communication_pvalue'].values
+        S_tmp = adata.uns['commot_cluster-%s-%s-%s-%s' % (clustering, key[0], key[1], key[2])]['communication_matrix'].values
+        P_tmp = adata.uns['commot_cluster-%s-%s-%s-%s' % (clustering, key[0], key[1], key[2])]['communication_pvalue'].values
         S[:,ikey] = S_tmp.flatten()[:]
         P[:,ikey] = P_tmp.flatten()[:]
     y_names = np.array( y_names, str )
@@ -733,7 +752,7 @@ def plot_cluster_communication_dotplot(
     g = sns.relplot(
         data=df_plot,
         x="x", y="y", hue="color_col", size="size_col",
-        palette=cmap, hue_norm=(vmin, vmax), edgecolor=".7",
+        palette=cmap, hue_norm=(vmin, vmax), edgecolor=".7", legend='brief',
         height=10, sizes=(size_min, size_max), size_norm=pvalueNormalize(vmin=p_value_vmin, vmax=p_value_cutoff),
     )
     g.set(xlabel="", ylabel="", aspect="equal")

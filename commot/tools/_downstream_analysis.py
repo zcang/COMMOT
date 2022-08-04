@@ -31,7 +31,9 @@ from .._utils import binarize_sparse_matrix
 
 def communication_deg_detection(
     adata: anndata.AnnData,
-    n_var_genes: int = 3000,
+    n_var_genes: int = None,
+    var_genes = None,
+    database_name: str = None,
     pathway_name: str = None,
     summary: str = 'receiver',
     lr_pair: tuple = ('total','total'),
@@ -43,6 +45,8 @@ def communication_deg_detection(
     """
     Identify signaling dependent genes
 
+    This function depends on tradeSeq
+
     Paramters
     ---------
     adata
@@ -53,6 +57,8 @@ def communication_deg_detection(
         adata.obsm['commot-$pathway_name-sum']['$summary-$ligand-$receptor']
     n_var_genes
         The number of most variable genes to test.
+    var_genes
+        The genes to test. n_var_genes will be ignored if given.
     n_deg_genes
         The number of top deg genes to evaluate yhat.
     pathway_name
@@ -78,7 +84,7 @@ def communication_deg_detection(
     
     """
     # setup R environment
-    # !!! anndata2ri works only with 3.6.3 in the tested machine
+    # !!! anndata2ri works only with 3.6.3 on the tested machine
     import rpy2
     import anndata2ri
     import rpy2.robjects as ro
@@ -99,12 +105,29 @@ def communication_deg_detection(
         var = pd.DataFrame(index=list(adata.var_names)),
         obs = pd.DataFrame(index=list(adata.obs_names)))
     adata_deg_var = adata_deg.copy()
+    sc.pp.filter_genes(adata_deg_var, min_cells=3)
+    sc.pp.filter_genes(adata_deg, min_cells=3)
+    sc.pp.normalize_total(adata_deg_var, target_sum=1e4)
     sc.pp.log1p(adata_deg_var)
-    sc.pp.highly_variable_genes(adata_deg_var, n_top_genes=n_var_genes)
-    adata_deg = adata_deg[:, adata_deg_var.var.highly_variable]
+    if n_var_genes is None:
+        sc.pp.highly_variable_genes(adata_deg_var, min_mean=0.0125, max_mean=3, min_disp=0.5)
+    elif not n_var_genes is None:
+        sc.pp.highly_variable_genes(adata_deg_var, n_top_genes=n_var_genes)
+    if var_genes is None:
+        adata_deg = adata_deg[:, adata_deg_var.var.highly_variable]
+    else:
+        adata_deg = adata_deg[:, var_genes]
     del adata_deg_var
 
-    comm_sum = adata.obsm['commot-%s-sum' % pathway_name]['%s-%s-%s' % (summary, lr_pair[0], lr_pair[1])].values.reshape(-1,1)
+    summary_name = 'commot-'+database_name+'-sum-'+summary
+    if summary == 'sender':
+        summary_abrv = 's'
+    else:
+        summary_abrv = 'r'
+    if not pathway_name is None:
+        comm_sum = adata.obsm[summary_name][summary_abrv+'-'+pathway_name].values.reshape(-1,1)
+    elif pathway_name is None:
+        comm_sum = adata.obsm[summary_name][summary_abrv+'-'+lr_pair[0]+'-'+lr_pair[1]].values.reshape(-1,1)
     cell_weight = np.ones_like(comm_sum).reshape(-1,1)
 
     # send adata to R
@@ -190,8 +213,7 @@ def communication_deg_clustering(
     df_deg = df_deg.iloc[idx[:n_deg_genes]]
     yhat_scaled = df_yhat.loc[df_deg.index]
     x_pca = PCA(n_components=deg_clustering_npc, svd_solver='full').fit_transform(yhat_scaled.values)
-    d_pca = distance_matrix(x_pca, x_pca)
-    cluster_labels = leiden_clustering(d_pca, k=deg_clustering_knn, resolution=deg_clustering_res)
+    cluster_labels = leiden_clustering(x_pca, k=deg_clustering_knn, resolution=deg_clustering_res, input='embedding')
 
     data_tmp = np.concatenate((df_deg.values, cluster_labels.reshape(-1,1)),axis=1)
     df_metadata = pd.DataFrame(data=data_tmp, index=df_deg.index,
@@ -200,8 +222,11 @@ def communication_deg_clustering(
 
 def communication_impact(
     adata: anndata.AnnData,
+    database_name: str = None,
     pathway_name: str = None,
-    normalize: bool=False,
+    pathway_sum_only: bool = False,
+    heteromeric_delimiter: str = '_',
+    normalize: bool = False,
     method: str = None,
     corr_method: str = "spearman",
     tree_method: str = "rf",
@@ -216,7 +241,11 @@ def communication_impact(
     bg_genes: Union[list, int] = 100
 ):
     """
-    Analyze impact of communication
+    Analyze impact of communication.
+
+    When using the 'treebased_score' as the method, there is potentially dilution of importance between the LR pairs if 'tree_combined' is set to True.
+    Therefore, if uniqueness of potential impact of various LR pairs on the target genes is not the focus, 'tree_combined' can be set to False.
+    If the unique impact of signaling in addition to the intra-cellular regulatory impact of target genes is not of interest, 'bg_genes' can be set to 0.
 
     Parameters
     ----------
@@ -290,37 +319,85 @@ def communication_impact(
         Ds_exp_total += Ds_exp
     Ds_exps.append(Ds_exp_total); col_names.append('average')
     # Impact analysis
+    df_ligrec = adata.uns['commot-'+database_name+'-info']['df_ligrec']
+    available_pathways = []
+    for i in range(df_ligrec.shape[0]):
+        _, _, tmp_pathway = df_ligrec.iloc[i,:]
+        if not tmp_pathway in available_pathways:
+            available_pathways.append(tmp_pathway)
+    pathway_genes = [[] for i in range(len(available_pathways))]
+    all_lr_genes = []
+    for i in range(df_ligrec.shape[0]):
+        tmp_lig, tmp_rec, tmp_pathway = df_ligrec.iloc[i,:]
+        idx = available_pathways.index(tmp_pathway)
+        tmp_ligs = tmp_lig.split(heteromeric_delimiter)
+        tmp_recs = tmp_rec.split(heteromeric_delimiter)
+        for lig in tmp_ligs:
+            if not lig in pathway_genes[idx]:
+                pathway_genes[idx].append(lig)
+            if not lig in all_lr_genes:
+                all_lr_genes.append(lig)
+        for rec in tmp_recs:
+            if not rec in pathway_genes[idx]:
+                pathway_genes[idx].append(rec)
+            if not rec in all_lr_genes:
+                all_lr_genes.append(rec)
     bg_genes = list( adata_bg.var_names )
-    nrows = adata.obsm['commot-'+pathway_name+'-sum'].shape[1]
+
+    sum_names = []
+    exclude_lr_genes_list = []
+    if pathway_name is None and not pathway_sum_only:
+        for i in range(df_ligrec.shape[0]):
+            tmp_lig, tmp_rec, _ = df_ligrec.iloc[i,:]
+            sum_names.append("%s-%s" % (tmp_lig, tmp_rec))
+            exclude_lr_genes_list.append(set(tmp_lig.split(heteromeric_delimiter)).union(set(tmp_rec.split(heteromeric_delimiter))))
+        for tmp_pathway in available_pathways:
+            sum_names.append(tmp_pathway)
+            exclude_lr_genes_list.append(set(pathway_genes[available_pathways.index(tmp_pathway)]))
+        sum_names.append('total-total')
+        exclude_lr_genes_list.append(set(all_lr_genes))
+    elif not pathway_name is None and not pathway_sum_only:
+        for i in range(df_ligrec.shape[0]):
+            tmp_lig, tmp_rec, tmp_pathway = df_ligrec.iloc[i,:]
+            if tmp_pathway == pathway_name:
+                sum_names.append("%s-%s" % (tmp_lig, tmp_rec))
+                exclude_lr_genes_list.append(set(tmp_lig.split(heteromeric_delimiter)).union(set(tmp_rec.split(heteromeric_delimiter))))
+        sum_names.append(pathway_name)
+        exclude_lr_genes_list.append(set(pathway_genes[available_pathways.index(pathway_name)]))
+
+    elif pathway_sum_only:
+        sum_names = available_pathways
+        for i in range(len(available_pathways)):
+            exclude_lr_genes_list.append(set(pathway_genes[i]))
+
+    nrows = 2 * len(sum_names)
+
     ncols = len(ds_genes) + 1
     impact_mat = np.empty([nrows, ncols], float)
-    df_ligrec = adata.uns['commot-'+pathway_name+'-info']['df_ligrec']
+    
     row_names_sender = []; row_names_receiver = []
     exclude_lr_genes_list = []
-    for i in range(df_ligrec.shape[0]):
-        lig = df_ligrec.iloc[i][0]
-        rec = df_ligrec.iloc[i][1]
-        row_names_sender.append('sender-%s-%s' % (lig, rec))
-        row_names_receiver.append('receiver-%s-%s' % (lig, rec))
-        exclude_lr_genes_list.append(set((lig,rec)))
-    row_names_sender.append('sender-total-total')
-    row_names_receiver.append('receiver-total-total')
-    exclude_lr_genes_list.append(set(tuple(list(df_ligrec.values.flatten()))))
+    for i in range(len(sum_names)):
+        row_names_sender.append('s-%s' % sum_names[i])
+        row_names_receiver.append('r-%s' % sum_names[i])
     row_names = row_names_sender + row_names_receiver
     exclude_lr_genes_list = exclude_lr_genes_list + exclude_lr_genes_list
 
-
+    print(nrows, ncols)
     for j in range(ncols):
+        print(j)
         if j == ncols-1:
             exclude_ds_genes = set(ds_genes)
         else:
             exclude_ds_genes = set([ds_genes[j]])
         if method == 'treebased_score' and tree_combined:
-            exclude_lr_genes = set(tuple(list(df_ligrec.values.flatten())))
+            exclude_lr_genes = set(all_lr_genes)
             exclude_genes = list(exclude_lr_genes.union(exclude_ds_genes))
             use_genes = list( set(bg_genes) - set(exclude_genes) )
             bg_mat = np.array( adata_bg[:,use_genes].X.toarray() )
-            r = treebased_score_multifeature(adata.obsm['commot-'+pathway_name+'-sum'][row_names].values, Ds_exps[j], bg_mat,
+            sum_mat = np.concatenate((adata.obsm['commot-'+database_name+'-sum-sender'][row_names_sender].values, \
+                adata.obsm['commot-'+database_name+'-sum-receiver'][row_names_receiver].values), axis=1)
+            r = treebased_score_multifeature(sum_mat, Ds_exps[j], bg_mat,
                 n_trees = tree_ntrees, n_repeat = tree_repeat,
                 max_depth = tree_max_depth, max_features = tree_max_features,
                 learning_rate = tree_learning_rate, subsample = tree_subsample)
@@ -333,12 +410,16 @@ def communication_impact(
                 exclude_genes = list(exclude_lr_genes.union(exclude_ds_genes))
                 use_genes = list( set(bg_genes) - set(exclude_genes) )
                 bg_mat = np.array( adata_bg[:,use_genes].X.toarray() )
+                if row_name[0] == 's':
+                    sum_vec = adata.obsm['commot-'+database_name+'-sum-sender'][row_name].values.reshape(-1,1)
+                elif row_name[0] == 'r':
+                    sum_vec = adata.obsm['commot-'+database_name+'-sum-receiver'][row_name].values.reshape(-1,1)
                 if method == "partial_corr":
-                    r,p = partial_corr(adata.obsm['commot-'+pathway_name+'-sum'][row_name].values.reshape(-1,1), Ds_exps[j].reshape(-1,1), bg_mat, method=corr_method)
+                    r,p = partial_corr(sum_vec, Ds_exps[j].reshape(-1,1), bg_mat, method=corr_method)
                 elif method == "semipartial_corr":
-                    r,p = semipartial_corr(adata.obsm['commot-'+pathway_name+'-sum'][row_name].values.reshape(-1,1), Ds_exps[j].reshape(-1,1), ycov=bg_mat, method=corr_method)
+                    r,p = semipartial_corr(sum_vec, Ds_exps[j].reshape(-1,1), ycov=bg_mat, method=corr_method)
                 elif method == "treebased_score":
-                    r = treebased_score(adata.obsm['commot-'+pathway_name+'-sum'][row_name].values.reshape(-1,1), Ds_exps[j], bg_mat,
+                    r = treebased_score(sum_vec, Ds_exps[j], bg_mat,
                         n_trees = tree_ntrees, n_repeat = tree_repeat,
                         max_depth = tree_max_depth, max_features = tree_max_features,
                         learning_rate = tree_learning_rate, subsample = tree_subsample)
@@ -347,10 +428,9 @@ def communication_impact(
     return df_impact
 
 
-
+# Has not adapted new naming scheme
 def group_cluster_communication(
     adata: anndata.AnnData,
-    pathway_name: Union[str, list] = None,
     clustering: str = None,
     keys = None,
     p_value_cutoff: float = 0.05,
@@ -371,14 +451,11 @@ def group_cluster_communication(
     adata
         The data matrix with the cluster-cluster communication 
         info stored in ``adata.uns``.
-    pathway_name
-        A string for one signaling pathway or a list of pathways.
     clustering
         Name of clustering with the labels stored in ``.obs[clustering]``.
     keys
         A list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor). 
-        If given, pathway_name will be ignored.
+        (database_name, ligand, receptor). 
     quantile_cutoff
         The quantile cutoff for including an edge. Set to 1 to disable this criterion.
         The quantile_cutoff and p_value_cutoff works in the "or" logic to avoid missing
@@ -420,23 +497,11 @@ def group_cluster_communication(
         of network structural dissimilarities. Nature communications, 8(1), 1-10.
 
     """
-    # Get a list of keys if only pathway_name is specified.
-    if keys is None:
-        keys = []
-        if isinstance(pathway_name, str):
-            pathways = [pathway_name]
-        elif isinstance(pathway_name, list):
-            pathways = pathway_name
-        for pathway in pathways:
-            df_ligrec = adata.uns['commot-%s-info' % pathway]['df_ligrec']
-            for i in range(df_ligrec.shape[0]):
-                key = (pathway, df_ligrec.iloc[i][0], df_ligrec.iloc[i][1])
-                keys.append(key)
-            keys.append( (pathway,'total','total') )
+    
     # Get a list of filtered communication matrices corresponding to the keys.
     As = []
     for key in keys:
-        tmp_name = 'commot_cluster-%s-%s-%s-%s' % (key[0],clustering,key[1],key[2])
+        tmp_name = 'commot_cluster-%s-%s-%s-%s' % (clustering,key[0],key[1],key[2])
         X_tmp = adata.uns[tmp_name]['communication_matrix'].values.copy()
         pvalue_tmp = adata.uns[tmp_name]['communication_pvalue'].values.copy()
         if not quantile_cutoff is None:
@@ -469,7 +534,6 @@ def group_cluster_communication(
 
 def group_cell_communication(
     adata: anndata.AnnData,
-    pathway_name: Union[str, list] = None,
     keys = None,
     bin_method: str = 'gaussian_mixture',
     bin_append_zeros: str = 'full',
@@ -492,12 +556,9 @@ def group_cell_communication(
     adata
         The data matrix with the cell-cell communication 
         info stored in ``adata.obsp``.
-    pathway_name
-        A string for one signaling pathway or a list of pathways.
     keys
         A list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor). 
-        If given, pathway_name will be ignored.
+        (database_name, ligand, receptor). 
     bin_method
         Method for binarize communication connections. Choices: 'gaussian_mixture', 'kmeans'.
     bin_append_zeros
@@ -548,19 +609,7 @@ def group_cell_communication(
         Conference on Knowledge Discovery & Data Mining (pp. 1320-1329).
 
     """
-    # Get a list of keys if only pathway_name is specified.
-    if keys is None:
-        keys = []
-        if isinstance(pathway_name, str):
-            pathways = [pathway_name]
-        elif isinstance(pathway_name, list):
-            pathways = pathway_name
-        for pathway in pathways:
-            df_ligrec = adata.uns['commot-%s-info' % pathway]['df_ligrec']
-            for i in range(df_ligrec.shape[0]):
-                key = (pathway, df_ligrec.iloc[i][0], df_ligrec.iloc[i][1])
-                keys.append(key)
-            keys.append( (pathway,'total','total') )
+    
     nkey = len(keys)
     ncell = adata.shape[0]
 
@@ -606,7 +655,6 @@ def group_cell_communication(
 
 def group_communication_direction(
     adata: anndata.AnnData,
-    pathway_name: Union[str, list] = None,
     keys: list = None,
     summary: str = 'sender',
     knn_smoothing: int = -1,
@@ -627,12 +675,9 @@ def group_communication_direction(
     adata
         The data matrix with the communication direction
         info stored in ``adata.obsm``, e.g. adata.obsm['commot_sender_vf-pathway-lig-rec'].
-    pathway_name
-        A string for one signaling pathway or a list of pathways.
     keys
         A list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor). 
-        If given, pathway_name will be ignored.
+        (database_name, ligand, receptor). 
     summary
         If 'sender', use the vector field describing to which direction the signals are sent.
         If 'receiver', use the vector field describing from which direction the signals are from.
@@ -669,19 +714,7 @@ def group_communication_direction(
         The dissimilarity matrix for the communication directions.
     
     """
-    # Get a list of keys if only pathway is given.
-    if keys is None:
-        keys = []
-        if isinstance(pathway_name, str):
-            pathways = [pathway_name]
-        elif isinstance(pathway_name, list):
-            pathways = pathway_name
-        for pathway in pathways:
-            df_ligrec = adata.uns['commot-%s-info' % pathway]['df_ligrec']
-            for i in range(df_ligrec.shape[0]):
-                key = (pathway, df_ligrec.iloc[i][0], df_ligrec.iloc[i][1])
-                keys.append(key)
-            keys.append( (pathway,'total','total') )
+    
     # Process the vector fields
     V_list = []
     for key in keys:
@@ -713,7 +746,6 @@ def group_communication_direction(
 
 def communication_spatial_autocorrelation(
     adata: anndata.AnnData,
-    pathway_name: Union[str, list] = None,
     keys: list = None,
     method: str = 'Moran',
     normalize_vf: bool = False,
@@ -732,12 +764,9 @@ def communication_spatial_autocorrelation(
     adata
         The data matrix with the communication vector fields
         info stored in ``adata.ubsm``.
-    pathway_name
-        A string for one signaling pathway or a list of pathways.
     keys
         A list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor). 
-        If given, pathway_name will be ignored.
+        (database_name, ligand, receptor). 
     method
         The method to use. Currently, only Moran's I [Liu2015]_ for vectors is implemented.
     normalize_vf
@@ -777,18 +806,6 @@ def communication_spatial_autocorrelation(
         autocorrelation of vectors. Geographical Analysis, 47(3), 300-319.
 
     """
-    if keys is None:
-        keys = []
-        if isinstance(pathway_name, str):
-            pathways = [pathway_name]
-        elif isinstance(pathway_name, list):
-            pathways = pathway_name
-        for pathway in pathways:
-            df_ligrec = adata.uns['commot-%s-info' % pathway]['df_ligrec']
-            for i in range(df_ligrec.shape[0]):
-                key = (pathway, df_ligrec.iloc[i][0], df_ligrec.iloc[i][1])
-                keys.append(key)
-            keys.append( (pathway,'total','total') )
     
     moranI = []
     p_value = []

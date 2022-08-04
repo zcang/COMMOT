@@ -1,6 +1,7 @@
 from ._spatial_communication import spatial_communication
 from ._spatial_communication import communication_direction
 from ._spatial_communication import cluster_communication
+from ._spatial_communication import cluster_communication_spatial_permutation
 from ._spatial_communication import cluster_position
 from ._downstream_analysis import communication_deg_detection
 from ._downstream_analysis import communication_deg_clustering

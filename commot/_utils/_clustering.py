@@ -1,7 +1,9 @@
 # %%
+from xml.etree.ElementInclude import include
 import igraph
 import leidenalg
 import numpy as np
+from sklearn.neighbors import kneighbors_graph
 
 def knn_graph(D,k):
     """Construct a k-nearest-neighbor graph as igraph object.
@@ -29,14 +31,23 @@ def knn_graph(D,k):
     G.es['weight'] = weights
     return G
 
+def knn_graph_embedding(X, k):
+    A = kneighbors_graph(X, k, include_self=False, mode='distance')
+    G = igraph.Graph.Weighted_Adjacency(A)
+    return (G)
+
 def leiden_clustering(
     D,
     k = 5,
     resolution = 1.0,
     random_seed = 1,
-    n_iterations = -1
+    n_iterations = -1,
+    input = 'distance'
 ):
-    G = knn_graph(D, k)
+    if input == 'distance':
+        G = knn_graph(D, k)
+    elif input == 'embedding':
+        G = knn_graph_embedding(D, k)
     partition_kwargs = {'resolution_parameter':resolution,
         'seed': random_seed,
         'n_iterations': n_iterations}

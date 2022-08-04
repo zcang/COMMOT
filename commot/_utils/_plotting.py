@@ -87,6 +87,7 @@ def plot_cluster_signaling_network(S,
     labels = None,
     node_size = 0.2,
     node_colormap = "Plotly",
+    node_cluster_colormap = None,
     node_pos = None,
     edge_width_lb_quantile = 0.05,
     edge_width_ub_quantile = 0.95,
@@ -116,7 +117,10 @@ def plot_cluster_signaling_network(S,
 
     # Draw the nodes (cluster)
     for i in range(len(labels)):
-        G.add_node(labels[i], shape="point", fillcolor=node_cmap[i], color=node_cmap[i])
+        if node_cluster_colormap is None:
+            G.add_node(labels[i], shape="point", fillcolor=node_cmap[i], color=node_cmap[i])
+        elif not node_cluster_colormap is None:
+            G.add_node(labels[i], shape="point", fillcolor=node_cluster_colormap[labels[i]], color=node_cmap[i])
         if not node_pos is None:
             G.nodes[labels[i]]["pos"] = "%f,%f!" % (node_pos[i,0],node_pos[i,1])
         G.nodes[labels[i]]["width"] = str(node_size)
@@ -212,9 +216,14 @@ def plot_cell_signaling(X,
     V,
     signal_sum,
     cmap="coolwarm",
+    cluster_cmap = None,
     arrow_color="tab:blue",
     k=5,
     plot_method="cell",
+    background='summary',
+    clustering=None,
+    background_legend=False,
+    adata=None,
     summary='sender',
     ndsize = 1,
     scale = 1.0,
@@ -227,7 +236,8 @@ def plot_cell_signaling(X,
     stream_linewidth = 1,
     stream_cutoff_perc = 5,
     filename=None,
-    ax = None
+    ax = None,
+    fig = None
 ):
     ndcolor = signal_sum
     ncell = X.shape[0]
@@ -280,21 +290,59 @@ def plot_cell_signaling(X,
 
             V_grid[0][cutoff] = np.nan
 
+    if cmap == 'Plotly':
+        cmap = plotly.colors.qualitative.Plotly
+    elif cmap == 'Light24':
+        cmap = plotly.colors.qualitative.Light24
+    elif cmap == 'Dark24':
+        cmap = plotly.colors.qualitative.Dark24
+    elif cmap == 'Alphabet':
+        cmap = plotly.colors.qualitative.Alphabet
 
     idx = np.argsort(ndcolor)
-    ax.scatter(X[idx,0], X[idx,1], s=ndsize, c=ndcolor[idx], cmap=cmap, linewidth=0)
-    if plot_method == "cell":
-        ax.quiver(X_vec[:,0], X_vec[:,1], V_cell[:,0], V_cell[:,1], scale=scale, scale_units='x', color=arrow_color)
-    elif plot_method == "grid":
-        ax.quiver(grid_pts[:,0], grid_pts[:,1], V_grid[:,0], V_grid[:,1], scale=scale, scale_units='x', width=grid_width, color=arrow_color)
-    elif plot_method == "stream":
-        lengths = np.sqrt((V_grid ** 2).sum(0))
-        stream_linewidth *= 2 * lengths / lengths[~np.isnan(lengths)].max()
-        ax.streamplot(x_grid, y_grid, V_grid[0], V_grid[1], color=arrow_color, density=stream_density, linewidth=stream_linewidth)
+    if background == 'summary' or background == 'cluster':
+        if not ndsize==0:
+            if background == 'summary':
+                ax.scatter(X[idx,0], X[idx,1], s=ndsize, c=ndcolor[idx], cmap=cmap, linewidth=0)
+            elif background == 'cluster':
+                labels = np.array( adata.obs[clustering], str )
+                unique_labels = np.sort(list(set(list(labels))))
+                for i_label in range(len(unique_labels)):
+                    idx = np.where(labels == unique_labels[i_label])[0]
+                    if cluster_cmap is None:
+                        ax.scatter(X[idx,0], X[idx,1], s=ndsize, c=cmap[i_label], linewidth=0, label=unique_labels[i_label])
+                    elif not cluster_cmap is None:
+                        ax.scatter(X[idx,0], X[idx,1], s=ndsize, c=cluster_cmap[unique_labels[i_label]], linewidth=0, label=unique_labels[i_label])
+                if background_legend:
+                    ax.legend(markerscale=2.0, loc=[1.0,0.0])
+        if plot_method == "cell":
+            ax.quiver(X_vec[:,0], X_vec[:,1], V_cell[:,0], V_cell[:,1], scale=scale, scale_units='x', color=arrow_color)
+        elif plot_method == "grid":
+            ax.quiver(grid_pts[:,0], grid_pts[:,1], V_grid[:,0], V_grid[:,1], scale=scale, scale_units='x', width=grid_width, color=arrow_color)
+        elif plot_method == "stream":
+            lengths = np.sqrt((V_grid ** 2).sum(0))
+            stream_linewidth *= 2 * lengths / lengths[~np.isnan(lengths)].max()
+            ax.streamplot(x_grid, y_grid, V_grid[0], V_grid[1], color=arrow_color, density=stream_density, linewidth=stream_linewidth)
+    elif background == 'image':
+        spatial_mapping = adata.uns.get("spatial", {})
+        library_id = list(spatial_mapping.keys())[0]
+        spatial_data = spatial_mapping[library_id]
+        img = spatial_data['images']['hires']
+        sf = spatial_data['scalefactors']['tissue_hires_scalef']
+        ax.imshow(img, origin='lower')
+        if plot_method == "cell":
+            ax.quiver(X_vec[:,0]*sf, X_vec[:,1]*sf, V_cell[:,0]*sf, V_cell[:,1]*sf, scale=scale, scale_units='x', color=arrow_color)
+        elif plot_method == "grid":
+            ax.quiver(grid_pts[:,0]*sf, grid_pts[:,1]*sf, V_grid[:,0]*sf, V_grid[:,1]*sf, scale=scale, scale_units='x', width=grid_width, color=arrow_color)
+        elif plot_method == "stream":
+            lengths = np.sqrt((V_grid ** 2).sum(0))
+            stream_linewidth *= 2 * lengths / lengths[~np.isnan(lengths)].max()
+            ax.streamplot(x_grid*sf, y_grid*sf, V_grid[0]*sf, V_grid[1]*sf, color=arrow_color, density=stream_density, linewidth=stream_linewidth)
+
     ax.axis("equal")
     ax.axis("off")
     if not filename is None:
-        plt.savefig(filename, dpi=500, bbox_inches = 'tight')
+        plt.savefig(filename, dpi=500, bbox_inches = 'tight', transparent=True)
 
 
 def plot_cell_signaling_compare(X,
