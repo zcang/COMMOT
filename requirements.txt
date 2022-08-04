@@ -7,7 +7,7 @@ networkx==2.5.1
 numpy==1.19.5
 pandas==1.4.1
 plotly==5.3.1
-pot==0.7.0
+pot==0.8.2
 pysal==2.6.0
 python-igraph==0.9.9
 python-louvain==0.15
