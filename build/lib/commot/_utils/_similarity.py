@@ -465,15 +465,15 @@ def preprocess_vector_field(
         V = normalize(V)
     return V
 
-# def d_vf_cosine_similarity(
-#     X,
-#     V1,
-#     V2,
-#     knn_smoothing = -1,
-#     normalize = "quantile",
-#     quantile = 0.99
-# ):
-#     if knn_smoothing >= 2:
-#         nbrs = NearestNeighbors(n_neighbors=knn_smoothing, algorithm='ball_tree').fit(X)
-#         _, idx = nbrs.kneighbors(X)
-#         V_smoothed = np.zero_like(V)
+def d_vf_cosine_similarity(
+    X,
+    V1,
+    V2,
+    knn_smoothing = -1,
+    normalize = "quantile",
+    quantile = 0.99
+):
+    if knn_smoothing >= 2:
+        nbrs = NearestNeighbors(n_neighbors=knn_smoothing, algorithm='ball_tree').fit(X)
+        _, idx = nbrs.kneighbors(X)
+        V_smoothed = np.zero_like(V)
