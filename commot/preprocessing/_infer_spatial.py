@@ -2,6 +2,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 import scanpy as sc
+import ot
 from scipy import sparse
 from scipy.spatial import distance_matrix
 import anndata
