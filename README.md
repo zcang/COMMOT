@@ -1,6 +1,8 @@
 # COMMOT
 Cell-cell communication network construction for spatial transcriptomics using collective optimal transport
 
+![pytest](https://github.com/zcang/COMMOT/actions/workflows/python-package.yml/badge.svg)
+
 ## Installation
 1. Install the dependencies. \
    `pip install -r requirements.txt`
