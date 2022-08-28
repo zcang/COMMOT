@@ -4,7 +4,7 @@ cython==0.29.24
 karateclub==1.2.2
 leidenalg==0.8.4
 networkx==2.5.1
-numpy==1.19.5
+numpy==1.22
 pandas==1.4.1
 plotly==5.3.1
 pot==0.8.2
