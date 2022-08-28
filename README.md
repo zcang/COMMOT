@@ -49,3 +49,6 @@ ct.tl.spatial_communication(adata,
 **Documentation**
 
 See the documentation in `docs/_build/html/index.html` for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
+
+**Reference**
+Cang, Zixuan, Yanxiang Zhao, Axel A. Almet, Adam Stabell, Raul Ramos, Maksim Plikus, Scott X. Atwood, and Qing Nie. "Screening cell-cell communication in spatial transcriptomics via collective optimal transport." bioRxiv (2022): 505185
