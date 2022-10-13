@@ -48,7 +48,7 @@ ct.tl.spatial_communication(adata,
 ```
 **Documentation**
 
-See the documentation in `docs/_build/html/index.html` for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
+See the documentation at [https://commot.readthedocs.io/en/latest/index.html](https://commot.readthedocs.io/en/latest/index.html) for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
 
 **Reference**
 
