@@ -17,7 +17,7 @@ def ligand_receptor_database(
     Parameters
     ----------
     database
-        The name of the ligand-receptor database. CellChatDB [Jin2021]_ and CellPhoneDB_v4.0 are available.
+        The name of the ligand-receptor database. CellChatDB [Jin2021]_ and CellPhoneDB_v4.0 [Efremova2020]_ are available.
     species
         The species of the ligand-receptor pairs. Choose between 'mouse' and 'human'.
     heteromeric_delimiter
@@ -37,6 +37,8 @@ def ligand_receptor_database(
 
     .. [Jin2021] Jin, S., Guerrero-Juarez, C. F., Zhang, L., Chang, I., Ramos, R., Kuan, C. H., ... & Nie, Q. (2021). 
         Inference and analysis of cell-cell communication using CellChat. Nature communications, 12(1), 1-20.
+    .. [Efremova2020] Efremova, M., Vento-Tormo, M., Teichmann, S. A., & Vento-Tormo, R. (2020). 
+        CellPhoneDB: inferring cell–cell communication from combined expression of multi-subunit ligand–receptor complexes. Nature protocols, 15(4), 1484-1506.
 
     """
 
