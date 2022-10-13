@@ -35,7 +35,7 @@ sc.pp.log1p(adata)
 ```
 _Specify ligand-receptor pairs_
 ```
-LR=np.array([['AMH', 'ACVR1', 'BMP_pathway'],['BMP10', 'ACVR1', 'BMP_pathway]],dtype=str)
+LR=np.array([['AMH', 'ACVR1', 'BMP_pathway'],['BMP10', 'ACVR1', 'BMP_pathway']],dtype=str)
 df_ligrec = pd.DataFrame(data=LR)
 ```
 (or use pairs from a ligand-receptor database `df_ligrec=ct.pp.ligand_receptor_database(database='CellChat', species='human')`.)
