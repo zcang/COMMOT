@@ -26,7 +26,7 @@ import pandas as pd
 _Load a spatial dataset_ \
 (e.g., a Visium dataset)
 ```
-adata = sc.datasets.visium_sge(sample_id='V1_Breast_Cancer_Block_A_Section_1')
+adata = sc.datasets.visium_sge(sample_id='V1_Mouse_Brain_Sagittal_Posterior')
 ```
 _Basic processing_
 ```
@@ -35,16 +35,16 @@ sc.pp.log1p(adata)
 ```
 _Specify ligand-receptor pairs_
 ```
-LR=np.array([['AMH', 'ACVR1', 'BMP_pathway'],['BMP10', 'ACVR1', 'BMP_pathway']],dtype=str)
+LR=np.array([['Tgfb1', 'Tgfbr1_Tgfbr2', 'Tgfb_pathway'],['Tgfb2', 'Tgfbr1_Tgfbr2', 'Tgfb_pathway'],['Tgfb3', 'Tgfbr1_Tgfbr2', 'Tgfb_pathway']],dtype=str)
 df_ligrec = pd.DataFrame(data=LR)
 ```
-(or use pairs from a ligand-receptor database `df_ligrec=ct.pp.ligand_receptor_database(database='CellChat', species='human')`.)
+(or use pairs from a ligand-receptor database `df_ligrec=ct.pp.ligand_receptor_database(database='CellChat', species='mouse')`.)
 
 _Construct CCC networks_ \
 Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 1000 (coupling between cells with distance greater than 1000 is prohibited). For example, the spot-by-spot matrix for the pair AMH (ligand) and ACVR1 (receptor)is stored in `adata.obsp['commot-user_database-AMH-ACVR1']`. The total sent or received signal for each pair is stored in `adata.obsm['commot-user_database-sum-sender']` and `adata.obsm['commot-user_database-sum-receiver']`.
 ```
 ct.tl.spatial_communication(adata,
-    database_name='user_database', df_ligrec=df_ligrec, dis_thr=1000)
+    database_name='user_database', df_ligrec=df_ligrec, dis_thr=200)
 ```
 **Documentation**
 
