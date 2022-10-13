@@ -35,7 +35,7 @@ sc.pp.log1p(adata)
 ```
 _Specify ligand-receptor pairs_
 ```
-LR=np.array([['AMH', 'ACVR1'],['AMH', 'AMHR2'],['BMP10', 'ACVR1']],dtype=str)
+LR=np.array([['AMH', 'ACVR1', 'BMP_pathway'],['BMP10', 'ACVR1', 'BMP_pathway]],dtype=str)
 df_ligrec = pd.DataFrame(data=LR)
 ```
 (or use pairs from a ligand-receptor database `df_ligrec=ct.pp.ligand_receptor_database(database='CellChat', species='human')`.)
@@ -44,7 +44,7 @@ _Construct CCC networks_ \
 Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 1000 (coupling between cells with distance greater than 1000 is prohibited). For example, the spot-by-spot matrix for the pair AMH (ligand) and ACVR1 (receptor)is stored in `adata.obsp['commot-user_database-AMH-ACVR1']`. The total sent or received signal for each pair is stored in `adata.obsm['commot-user_database-sum-sender']` and `adata.obsm['commot-user_database-sum-receiver']`.
 ```
 ct.tl.spatial_communication(adata,
-    pathway_name='user_database', df_ligrec=df_ligrec, dis_thr=1000)
+    database_name='user_database', df_ligrec=df_ligrec, dis_thr=1000)
 ```
 **Documentation**
 
