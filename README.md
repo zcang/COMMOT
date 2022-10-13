@@ -22,6 +22,7 @@ _Import packages_
 import commot as ct
 import scanpy as sc
 import pandas as pd
+import numpy as np
 ```
 _Load a spatial dataset_ \
 (e.g., a Visium dataset)
