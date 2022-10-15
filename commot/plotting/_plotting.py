@@ -259,12 +259,12 @@ def plot_cluster_communication_network(
 
     """
     
-    X_tmp = adata.uns[uns_names[0]]['communication_matrix']
+    X_tmp = adata.uns[uns_names[0]]['communication_matrix'].copy()
     labels = list( X_tmp.columns.values )
     X = np.zeros_like(X_tmp.values, float)
     for i in range(len(uns_names)):
-        X_tmp = adata.uns[uns_names[i]]['communication_matrix'].values
-        p_values_tmp = adata.uns[uns_names[i]]['communication_pvalue'].values
+        X_tmp = adata.uns[uns_names[i]]['communication_matrix'].values.copy()
+        p_values_tmp = adata.uns[uns_names[i]]['communication_pvalue'].values.copy()
         if not quantile_cutoff is None:
             cutoff = np.quantile(X_tmp.reshape(-1), quantile_cutoff)
         else:
