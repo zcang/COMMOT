@@ -79,7 +79,7 @@ def filter_lr_database(
     heteromeric_delimiter
         If heteromeric notations are used for ligands and receptors, the character separating the heteromeric units.
     heteromeric_rule
-        When  heteromeric is True, the rule to quantify the level of a heteromeric ligand or receptor. Choose from mimnimum ('min') and average ('ave').
+        When  heteromeric is True, the rule to quantify the level of a heteromeric ligand or receptor. Choose from minimum ('min') and average ('ave').
     filter_criteria
         Use either cell percentage ('min_cell_pct') or cell numbers (min_cell) to filter genes.
     min_cell

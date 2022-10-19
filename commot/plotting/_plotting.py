@@ -39,8 +39,6 @@ def plot_cell_communication(
     cmap: str = "coolwarm",
     cluster_cmap: dict = None,
     pos_idx: np.ndarray = np.array([0,1],int),
-    top_k: int = 5,
-    interp_k: int = 5,
     ndsize: float = 1,
     scale: float = 1.0,
     normalize_v: bool = False,
@@ -58,42 +56,90 @@ def plot_cell_communication(
     ax: Optional[mpl.axes.Axes] = None
 ):
     """
-    Plot cell-cell communication in space.
+    Plot spatial directions of cell-cell communication.
     
     .. image:: cell_communication.png
         :width: 500pt
 
+    The cell-cell communication should have been computed by the function :func:`commot.tl.spatial_communication`.
+    The cell-cell communication direction should have been computed by the function :func:`commot.tl.communication_direction`.
 
     Parameters
     ----------
     adata
         The data matrix of shape ``n_obs`` × ``n_var``.
         Rows correspond to cells or positions and columns to genes.
+    database_name
+        Name of the ligand-receptor interaction database. 
     pathway_name
-        Name of the signaling pathway.
+        Name of the signaling pathway to be plotted. Will be used only when ``lr_pair`` and ``keys`` are None.
+        If none of ``pathway_name``, ``lr_pair``, and ``keys`` are given, the total signaling through all pairs will be plotted.
     lr_pair
-        A tuple of ligand name and receptor name. If None, the total communication
-        of the pathway will be plotted.
+        A tuple of ligand name and receptor name. If given, ``pathway_name`` will be ignored. Will be ignored if ``keys`` is given.
     keys
-        A list of keys for the vector field as tuples (pathway_name, ligand, receptor). If given, pathway_name and lr_pair will be ignored.
+        A list of keys for example 'ligA-recA' for a LR pair or 'pathwayX' for a signaling pathway 'pathwayX'. 
+        If given, pathway_name and lr_pair will be ignored.
         If more than one is given, the average will be plotted.
     plot_method
         'cell' plot vectors on individual cells. 
         'grid' plot interpolated vectors on regular grids.
         'stream' streamline plot.
     background
-        'summary' scatter plot with color representing total sent or received signal.
-        'image' the image in Visium data.
-        'cluster' scatter plot with color representing cell clusters.
+        'summary': scatter plot with color representing total sent or received signal.
+        'image': the image in Visium data.
+        'cluster': scatter plot with color representing cell clusters.
+    background_legend
+        Whether to include the background legend when background is set to `summary` or `cluster`.
+    clustering
+        The key for clustering result. Needed if background is set to `cluster`.
+        For example, if ``clustering=='leiden'``, the clustering result should be available in ``.obs['leiden']``.
     summary
-        'sender' node color represents sender weight.
-        'receiver' node color represents receiver weight.
+        If background is set to 'summary', the numerical value to plot for background.
+        'sender': node color represents sender weight.
+        'receiver': node color represents receiver weight.
     cmap
-        matplotlib colormap name for node summary if numerical.
-        plotly colormap name for node color if summary is 'cluster'
+        matplotlib colormap name for node summary if numerical (background set to 'summary'), e.g., 'coolwarm'.
+        plotly colormap name for node color if summary is (background set to 'cluster'). e.g., 'Alphabet'.
+    cluster_cmap
+        A dictionary that maps cluster names to colors when setting background to 'cluster'. If given, ``cmap`` will be ignored.
     pos_idx
         The coordinates to use for plotting (2D plot).
-    top_k
+    ndsize
+        The node size of the spots.
+    scale
+        The scale parameter passed to the matplotlib quiver function :func:`matplotlib.pyplot.quiver` for vector field plots.
+        The smaller the value, the longer the arrows.
+    normalize_v
+        Whether the normalize the vector field to uniform lengths to highlight the directions without showing magnitudes.
+    normalize_v_quantile
+        The vector length quantile to use to normalize the vector field.
+    arrow_color
+        The color of the arrows.
+    grid_density
+        The density of grid if ``plot_method=='grid'``.
+    grid_knn
+        If ``plot_method=='grid'``, the number of nearest neighbors to interpolate the signaling directions from spots to grid points.
+    grid_scale
+        The scale parameter (relative to grid size) for the kernel function of mapping directions of spots to grid points.
+    grid_thresh
+        The threshold of interpolation weights determining whether to include a grid point. A smaller value gives a tighter cover of the tissue by the grid points.
+    grid_width
+        The value passed to the ``width`` parameter of the function :func:`matplotlib.pyplot.quiver` when ``plot_method=='grid'``.
+    stream_density
+        The density of stream lines passed to the ``density`` parameter of the function :func:`matplotlib.pyplot.streamplot` when ``plot_method=='stream'``.
+    stream_linewidth
+        The width of stream lines passed to the ``linewidth`` parameter of the function :func:`matplotlib.pyplot.streamplot` when ``plot_method=='stream'``.
+    stream_cutoff_perc
+        The quantile cutoff to ignore the weak vectors. Default to 5 that the vectors shorter than the 5% quantile will not be plotted.
+    filename
+        If given, save to the filename. For example 'ccc_direction.pdf'.
+    ax
+        An existing matplotlib ax (`matplotlib.axis.Axis`).
+
+    Returns
+    -------
+    ax : matplotlib.axis.Axis
+        The matplotlib ax object of the plot.
 
     """
 
@@ -102,13 +148,12 @@ def plot_cell_communication(
         V = np.zeros([ncell, 2], float)
         signal_sum = np.zeros([ncell], float)
         for key in keys:
-            pathway, lig, rec = key
             if summary == 'sender':
-                V = V + adata.obsm['commot_sender_vf-'+pathway+'-'+lig+'-'+rec][:,pos_idx]
-                signal_sum = signal_sum + adata.obsm['commot-'+pathway+"-sum"]['sender-'+lig+'-'+rec]
+                V = V + adata.obsm['commot_sender_vf-'+database_name+'-'+key][:,pos_idx]
+                signal_sum = signal_sum + adata.obsm['commot-'+database_name+"-sum-sender"]['s-'+key]
             elif summary == 'receiver':
-                V = V + adata.obsm['commot_receiver_vf-'+pathway+'-'+lig+'-'+rec][:,pos_idx]
-                signal_sum = signal_sum + adata.obsm['commot-'+pathway+"-sum"]['receiver-'+lig+'-'+rec]
+                V = V + adata.obsm['commot_receiver_vf-'+database_name+'-'+key][:,pos_idx]
+                signal_sum = signal_sum + adata.obsm['commot-'+database_name+"-sum-receiver"]['r-'+key]
         V = V / float( len( keys ) )
         signal_sum = signal_sum / float( len( keys ) )
     elif keys is None:
@@ -138,7 +183,6 @@ def plot_cell_communication(
         signal_sum,
         cmap = cmap,
         cluster_cmap = cluster_cmap,
-        k = top_k,
         plot_method = plot_method,
         background = background,
         clustering = clustering,
@@ -156,7 +200,7 @@ def plot_cell_communication(
         grid_width = grid_width,
         stream_density = stream_density,
         stream_linewidth = stream_linewidth,
-        stream_cutoff_perc = 5,
+        stream_cutoff_perc = stream_cutoff_perc,
         ax = ax,
         fig = fig,
     )
@@ -180,7 +224,6 @@ def plot_cluster_communication_network(
     nx_edge_width_min: float = 1,
     nx_edge_width_max: float = 4,
     nx_edge_color: Union[str, np.ndarray] = "node",
-    nx_edge_colors: list = plotly.colors.qualitative.Plotly,
     nx_edge_colormap = cm.Greys,
     nx_bg_pos: bool = True,
     nx_bg_color: str = "lavender",
@@ -198,23 +241,19 @@ def plot_cluster_communication_network(
     adata
         The data matrix of shape ``n_obs`` × ``n_var``.
         Rows correspond to cells or positions and columns to genes.
-    pathway_name
-        Name of the signaling pathway.
+    uns_names
+        A list of keys for the cluster-level CCC stored in ``.uns`` data slot.
+        When more than one is given, the average score will be used.
+        For example, ``'commot_cluster-leiden-cellchat-Fgf7-Fgfr1'`` will plot the CCC inferred 
+        with 'cellchat' LR database through 'Fgf7-Fgfr1' LR pair and for clustering stored in ``.obs['leiden']``.
     clustering
-        Name of the clustering.
-    lr_pair
-        If method='single-pair', lr_pair is a tuple of a pair of ligand-receptor or the total 
-        commucation of the pathway when set to None.
-    keys
-        A list of keys for cluster communication as tuples (pathway_name, ligand, receptor). 
-        If given, pathway_name and lr_pair will be ignored.
-        If more than one is given, the average will be plotted.
+        Name of the clustering. The cluster labels should be available in ``.obs[clustering]``.
     quantile_cutoff
         The quantile cutoff for including an edge. Set to 1 to disable this criterion.
         The quantile_cutoff and p_value_cutoff works in the "or" logic to avoid missing
         significant signaling connections.
     p_value_cutoff
-        The cutoff of p-value to plot an edge.
+        The cutoff of p-value to include an edge.
     self_communication_off
         Whether to exclude self communications in the visualization.
     filename
@@ -229,7 +268,8 @@ def plot_cluster_communication_network(
     nx_pos_idx
         Coordinates to use for the 2D plot.
     nx_node_pos
-        'cluster', the predicted spatial location of clusters will be used.
+        'cluster', the predicted spatial location of clusters will be used. 
+        If setting to 'cluster', run the function :func:`cluster_position` first to set the cluster positions.
         If None, the 'dot' layout from Graphviz package will be used.
     nx_edge_width_lb_quantile
         The quantile of communication connections to set for the lower bound of edge
@@ -245,8 +285,6 @@ def plot_cluster_communication_network(
         If 'node', the color of an edge will be the same as the source node.
         If an array of numbers between [0,1], the nx_edge_colormap will be used
         to determine the edge colors.
-    nx_edge_colors:
-        A list of color strings when method='multi-pair'.
     nx_edge_colormap
         The color map to use when nx_edge_color is an array of weights.
     nx_bg_pos
@@ -273,6 +311,9 @@ def plot_cluster_communication_network(
         X_tmp[tmp_mask] = 0
         X = X + X_tmp
     X = X / len(uns_names)
+    if self_communication_off:
+        for i in range(X.shape[0]):
+            X[i,i] = 0
 
     if nx_node_pos == "cluster":
         node_pos = [adata.uns["cluster_pos-"+clustering][labels[i]] for i in range(len(labels)) ]
@@ -339,7 +380,7 @@ def plot_communication_dependent_genes(
 ):
     """
     Plot smoothed gene expression of the detected communication-dependent genes.
-    Takes input from ``tl.communication_deg_clustering``.
+    Takes input from the function :func:`commot.tl.communication_deg_clustering`.
 
     .. image:: communication_deg.png
         :width: 500pt
@@ -434,7 +475,7 @@ def plot_communication_impact(
     vmax = 1.0
 ):
     """
-    Plot communication impact obtained by running ``tl.communication_impact``.
+    Plot communication impact obtained by running the function :func:`commot.tl.communication_impact`.
 
     .. image:: communication_impact.png
         :width: 300pt
@@ -569,24 +610,13 @@ class pvalueNormalize(mpl.colors.Normalize):
         y = (value_log10 - left) / (right - left)
         return y
 
-def plot_cluster_cluster_communication_dotplot(
-    df_comm,
-    df_p_value,
-    sig_p = 0.05,
-    vmin_quantile = 0.1,
-    vmax_quantile = 0.99
-):
-    m,n = df_comm.shape
-
 
 def plot_cluster_communication_dotplot(
     adata: anndata.AnnData,
     database_name: str = None,
     pathway_name: str = None,
     clustering: str = None,
-    lr_pair = None,
     keys = None,
-    show_pathway_name: bool = False,
     p_value_cutoff: float = 0.05,
     p_value_vmin: float = 1e-3,
     size_max = 20,
@@ -614,18 +644,17 @@ def plot_cluster_communication_dotplot(
     adata
         The data matrix of shape ``n_obs`` × ``n_var`` after running ``tl.spatial_communication``.
         Rows correspond to cells or positions and columns to genes.
+    database_name
+        The name of the LR database.
     pathway_name
-        Name of the signaling pathway.
+        Name of the a signaling pathway or a list of several signaling pathways. 
+        If given, all LR pairs of this signaling pathway(s) will be plotted.
+        If ``keys`` is specified, ``pathway_name`` will be ignored.
     clustering
         Name of the clustering.        
-    lr_pair
-        A tuple of ligand name and receptor name. If None, the total communication
-        of the pathway will be plotted.
     keys
-        A list of keys for the vector field as tuples (pathway_name, ligand, receptor). If given, pathway_name and lr_pair will be ignored.
-        If more than one is given, the average will be plotted.
-    show_pathway_name
-        Whether to show pathway_name in yticks.
+        A list of keys for example 'ligA-recA' for a LR pair or 'pathwayX' for a signaling pathway 'pathwayX'. 
+        If given, ``pathway_name`` will be ignored.
     p_value_cutoff
         Cutoff for being considered significant.
     p_value_vmin
@@ -669,14 +698,13 @@ def plot_cluster_communication_dotplot(
             pathways = [pathway_name]
         elif isinstance(pathway_name, list):
             pathways = pathway_name
-        for pathway in pathways:
-            df_ligrec = adata.uns['commot-%s-info' % pathway]['df_ligrec']
-            for i in range(df_ligrec.shape[0]):
-                key = (pathway, df_ligrec.iloc[i][0], df_ligrec.iloc[i][1])
-                keys.append(key)
-            keys.append( (pathway,'total','total') )
+        df_ligrec = adata.uns['commot-%s-info' % database_name]['df_ligrec']
+        for i in range(df_ligrec.shape[0]):
+            if df_ligrec.iloc[i][2] in pathways:
+                keys.append(df_ligrec.iloc[i][0]+'-'+df_ligrec.iloc[i][1])
+        keys.extend( pathways )
     
-    X_tmp = adata.uns['commot_cluster-'+clustering+'-'+keys[0][0]+'-'+keys[0][1]+'-'+keys[0][2]]['communication_matrix']
+    X_tmp = adata.uns['commot_cluster-'+clustering+'-'+database_name+'-'+keys[0]]['communication_matrix'].copy()
     labels = list( X_tmp.columns.values )
     name_matrix = np.empty([len(labels), len(labels)], object)
     for i in range(len(labels)):
@@ -689,12 +717,9 @@ def plot_cluster_communication_dotplot(
     P = np.empty([len(x_names), len(keys)], float)
     for ikey in range(len(keys)):
         key = keys[ikey]
-        if show_pathway_name:
-            y_names.append(key[0]+':'+key[1]+'->'+key[2])
-        else:
-            y_names.append(key[1]+'->'+key[2])
-        S_tmp = adata.uns['commot_cluster-%s-%s-%s-%s' % (clustering, key[0], key[1], key[2])]['communication_matrix'].values
-        P_tmp = adata.uns['commot_cluster-%s-%s-%s-%s' % (clustering, key[0], key[1], key[2])]['communication_pvalue'].values
+        y_names.append(key)
+        S_tmp = adata.uns['commot_cluster-%s-%s-%s' % (clustering, database_name, key)]['communication_matrix'].values.copy()
+        P_tmp = adata.uns['commot_cluster-%s-%s-%s' % (clustering, database_name, key)]['communication_pvalue'].values.copy()
         S[:,ikey] = S_tmp.flatten()[:]
         P[:,ikey] = P_tmp.flatten()[:]
     y_names = np.array( y_names, str )

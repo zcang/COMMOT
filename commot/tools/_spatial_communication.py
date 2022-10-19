@@ -329,7 +329,8 @@ def spatial_communication(
         Signaling matrices are added to ``.obsp``, e.g., for a LR interaction database named "databaseX", 
         ``.obsp['commot-databaseX-ligA-recA']``
         is a ``n_obs`` × ``n_obs`` matrix with the *ij* th entry being the "score" of 
-        cell *i* sending signal to cell *j* through ligA and recA.
+        cell *i* sending signal to cell *j* through ligA and recA. If ``pathway_sum==True``, the cell-by-cell signaling matrix for a pathway "pathwayX" 
+        will be stored in ``.obsp['commot-databaseX-pathwayX']``.
         The marginal sums (sender and receiver) of the signaling matrices are stored in ``.obsm['commot-databaseX-sum-sender']`` and ``.obsm['commot-databaseX-sum-receiver']``.
         Metadata of the analysis is added to ``.uns['commot-databaseX-info']``.
         If copy=True, return the AnnData object and return None otherwise.

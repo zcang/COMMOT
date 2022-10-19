@@ -45,16 +45,20 @@ def communication_deg_detection(
     """
     Identify signaling dependent genes
 
-    This function depends on tradeSeq
+    This function depends on tradeSeq [Van_den_Berge2020]_. Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work.
+    For the R-python interface, rpy2==3.4.2 and anndata2ri==1.0.6 have been tested to work.
 
-    Paramters
-    ---------
+    Here, the total received or sent signal for the spots are considered as a "gene expression" where tradeSeq is used to find the correlated genes.
+
+    Parameters
+    ----------
     adata
         The data matrix of shape ``n_obs`` × ``n_var``.
         Rows correspond to cells or positions and columns to genes.
         The count data should be available through adata.layers['count'].
-        The signaling data should be available in 
-        adata.obsm['commot-$pathway_name-sum']['$summary-$ligand-$receptor']
+        For example, when examining the received signal through the ligand-receptor pair "ligA" and "RecA" infered with the LR database "databaseX", 
+        the signaling inference result should be available in 
+        ``adata.obsm['commot-databaseX-sum-receiver']['r-ligA-recA']``
     n_var_genes
         The number of most variable genes to test.
     var_genes
@@ -62,13 +66,15 @@ def communication_deg_detection(
     n_deg_genes
         The number of top deg genes to evaluate yhat.
     pathway_name
-        Name of the signaling pathway.
+        Name of the signaling pathway (choose from the third column of ``.uns['commot-databaseX-info']['df_ligrec']``).
+        If ``pathway_name`` is specified, ``lr_pair`` will be ignored.
     summary
         'sender' or 'receiver'
     lr_pair
-        A tuple of the ligand-receptor pair
+        A tuple of the ligand-receptor pair.
+        If ``pathway_name`` is specified, ``lr_pair`` will be ignored.
     nknots
-        Number of knots in spline when constructing GAM
+        Number of knots in spline when constructing GAM.
     n_points
         Number of points on which to evaluate the fitted GAM 
         for downstream clustering and visualization.
@@ -82,6 +88,12 @@ def communication_deg_detection(
     df_yhat: pd.DataFrame
         A data frame of smoothed gene expression values.
     
+    References
+    ----------
+
+    .. [Van_den_Berge2020] Van den Berge, K., Roux de Bézieux, H., Street, K., Saelens, W., Cannoodt, R., Saeys, Y., ... & Clement, L. (2020). 
+        Trajectory-based differential expression analysis for single-cell sequencing data. Nature communications, 11(1), 1-13.
+
     """
     # setup R environment
     # !!! anndata2ri works only with 3.6.3 on the tested machine
@@ -184,10 +196,10 @@ def communication_deg_clustering(
     Parameters
     ----------
     df_deg
-        The deg analysis summary data frame obtained by running ``communication_deg_detection``.
+        The deg analysis summary data frame obtained by running ``commot.tl.communication_deg_detection``.
         Each row corresponds to one tested genes and columns include "waldStat" (Wald statistics), "df" (degrees of freedom), and "pvalue" (p-value of the Wald statistics).
     df_yhat
-        The fitted (smoothed) gene expression pattern obtained by running ``tl.communication_deg_detection``.
+        The fitted (smoothed) gene expression pattern obtained by running ``commot.tl.communication_deg_detection``.
     deg_clustering_npc
         Number of PCs when performing PCA to cluster gene expression patterns
     deg_clustering_knn
@@ -253,8 +265,14 @@ def communication_impact(
         The data matrix of shape ``n_obs`` × ``n_var``.
         Rows correspond to cells or positions and columns to genes.
         The full normalized dataset should be available in ``adata.raw``.
+    database_name
+        Name of the ligand-receptor database. 
     pathway_name
         Name of the signaling pathway.
+    pathway_sum_only
+        If ``True``, examine only the total signaling activity sum over signaling pathways without looking at individual ligand-receptor pairs.
+    heteromeric_delimiter
+        The delimiter that separates heteromeric units in the ligand-receptor database.
     normalize
         Whether to perform normalization before determining variable genes.
     method
@@ -282,7 +300,7 @@ def communication_impact(
     tree_combined
         If True, use a single model for each target gene with all features.
     ds_genes
-        A list of genes for analyzing the correlation with cell-cell communication. 
+        A list of genes for analyzing the correlation with cell-cell communication, for example, the highly variable genes.
     bg_genes
         If an integer, the top number of variable genes are used.
         Alternatively, a list of genes.
@@ -432,6 +450,7 @@ def communication_impact(
 def group_cluster_communication(
     adata: anndata.AnnData,
     clustering: str = None,
+    cluster_permutation_type: str = 'label',
     keys = None,
     p_value_cutoff: float = 0.05,
     quantile_cutoff: float = 0.99,
@@ -446,6 +465,10 @@ def group_cluster_communication(
     Idenfitify groups of cluster-cluster communication with similar
     pattern.
 
+    The CCC inference should have been summarized to cluster level using either :func:`commot.tl.cluster_communication` function 
+    or :func:`commot.tl.cluster_communication_spatial_permutation` function. The dissimilarities among different ligand-receptor pairs or signaling pathways
+    are first quantified which will be used with the leiden clustering algorithm [Traag2019]_ to cluster these CCC networks.
+
     Parameters
     ----------
     adata
@@ -453,22 +476,26 @@ def group_cluster_communication(
         info stored in ``adata.uns``.
     clustering
         Name of clustering with the labels stored in ``.obs[clustering]``.
+    cluster_permutation_type
+        ``'label'`` if the function :func:`commot.tl.cluster_communication` was used and ``'spatial'`` if :func:`commot.tl.cluster_communication_spatial_permutation` was used.
     keys
-        A list of keys for the analyzed communication connections as tuples 
-        (database_name, ligand, receptor). 
+        A list of keys for the analyzed communication connections as strings.
+        For example, the string ``'databaseX-pathwayX'`` represents the cluster-level CCC of signaling pathway "pathwayX" computed with the LR database "databaseX".
+        For another example, the string ``'databaseX-ligA-recA'`` represents the cluster-level CCC of the LR pair "ligA-recA" computed with the LR database "databaseX". 
+    p_value_cutoff
+        The cutoff of p-value for including an edge.
     quantile_cutoff
         The quantile cutoff for including an edge. Set to 1 to disable this criterion.
         The quantile_cutoff and p_value_cutoff works in the "or" logic to avoid missing
-        significant signaling connections.
-    p_value_cutoff
-        The cutoff of p-value to plot an edge.
+        significant signaling connections. 
+        An edge will be ignored only if it has a p-value greater than the ``p_value_cutoff`` and a score smaller than the score quantile cutoff.
     dissimilarity_method
         The dissimilarity measurement between graphs to use. 
         'jaccard' for Jaccard distance.
         'jaccard_weighted' for weighted Jaccard distance.
         'global_structure' for a metric focusing on global structure [Schieber2017]_.
     leiden_k
-        Number of neighbors for the knn-graph to be fed to leiden clustering algorithm.
+        Number of neighbors for the knn-graph for using leiden clustering algorithm.
     leiden_resolution
         The resolution parameter for the leiden clustering algorithm.
     leiden_random_seed
@@ -482,9 +509,6 @@ def group_cluster_communication(
     
     Returns
     -------
-    keys : list
-        The list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor).
     communication_clusterid : np.ndarray
         The group id of the cluster-cluster communications.
     D : np.ndarray
@@ -495,13 +519,18 @@ def group_cluster_communication(
     .. [Schieber2017] Schieber, T. A., Carpi, L., Díaz-Guilera, A., Pardalos, 
         P. M., Masoller, C., & Ravetti, M. G. (2017). Quantification 
         of network structural dissimilarities. Nature communications, 8(1), 1-10.
+    .. [Traag2019] Traag, V. A., Waltman, L., & Van Eck, N. J. (2019). 
+        From Louvain to Leiden: guaranteeing well-connected communities. Scientific reports, 9(1), 1-12.
 
     """
     
     # Get a list of filtered communication matrices corresponding to the keys.
     As = []
     for key in keys:
-        tmp_name = 'commot_cluster-%s-%s-%s-%s' % (clustering,key[0],key[1],key[2])
+        if cluster_permutation_type == 'label':
+            tmp_name = 'commot_cluster-%s-%s' % (clustering,key)
+        elif cluster_permutation_type == 'spatial':
+            tmp_name = 'commot_cluster_spatial_permutation-%s-%s' % (clustering,key)
         X_tmp = adata.uns[tmp_name]['communication_matrix'].values.copy()
         pvalue_tmp = adata.uns[tmp_name]['communication_pvalue'].values.copy()
         if not quantile_cutoff is None:
@@ -530,7 +559,7 @@ def group_cluster_communication(
         random_seed = leiden_random_seed, 
         n_iterations = leiden_n_iterations)
     
-    return keys, communication_clusterid, D
+    return communication_clusterid, D
 
 def group_cell_communication(
     adata: anndata.AnnData,
@@ -541,7 +570,7 @@ def group_cell_communication(
     bin_cutoff: float = 0,
     knn: int = 2,
     dissimilarity_method: str = 'graphwave',
-    kw_graphwave: dict = {},
+    kw_graphwave: dict = {'sample_number':200, 'step_size':0.1, 'heat_coefficient': 1.0, 'approximation':100, 'mechanism':'approximation', 'switch':1000, 'seed':42},
     leiden_k: int = 5,
     leiden_resolution: float = 1.0,
     leiden_random_seed: int = 1,
@@ -551,14 +580,18 @@ def group_cell_communication(
     Idenfitify groups of cell-cell communication with similar
     pattern.
 
+    The cell-cell communication should have been computed by the function :func:`commot.tl.spatial_communication`.
+
     Parameters
     ----------
     adata
         The data matrix with the cell-cell communication 
         info stored in ``adata.obsp``.
     keys
-        A list of keys for the analyzed communication connections as tuples 
-        (database_name, ligand, receptor). 
+        A list of keys for the analyzed communication connections as strings.
+        For example, the string ``'databaseX-pathwayX'`` represents the CCC of signaling pathway "pathwayX" computed with the LR database "databaseX".
+        For another example, the string ``'databaseX-ligA-recA'`` represents the CCC of the LR pair "ligA-recA" computed with the LR database "databaseX".
+        The cell-level CCC networks corresponding to the above examples are stored in ``.obsp['commot-databaseX-pathwayX]`` and ``.obsp['commot-databaseX-ligA-recA']``.
     bin_method
         Method for binarize communication connections. Choices: 'gaussian_mixture', 'kmeans'.
     bin_append_zeros
@@ -578,7 +611,7 @@ def group_cell_communication(
         in `Karate Club
         <https://github.com/benedekrozemberczki/karateclub/>`_.
     kw_graphwave
-        Keywords for GraphWave. Defaults: {'sample_number':200, 'step_size':0.1, 'heat_coefficient': 1.0
+        Keywords for GraphWave. Defaults: {'sample_number':200, 'step_size':0.1, 'heat_coefficient': 1.0,
         'approximation':100, 'mechanism':'approximation', 'switch':1000, 'seed':42} See details at `Karate Club
         <https://github.com/benedekrozemberczki/karateclub/>`_.
     leiden_k
@@ -593,9 +626,6 @@ def group_cell_communication(
     
     Returns
     -------
-    keys : list
-        The list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor).
     communication_clusterid : np.ndarray
         The group id of the cell-cell communications.
     D : np.ndarray
@@ -625,7 +655,7 @@ def group_cell_communication(
             A_spatial = sparse.csr_matrix((ncell,ncell))
         heat_mats = []
         for key in keys:
-            A_signal = adata.obsp['commot-%s-%s-%s' % (key[0], key[1], key[2])]
+            A_signal = adata.obsp['commot-%s' % key]
             A_signal_bin = binarize_sparse_matrix(A_signal, method = bin_method,
                 append_zeros = bin_append_zeros, random_state = bin_random_state)
             A_signal_bin_sym = A_signal_bin + A_signal_bin.T
@@ -650,7 +680,7 @@ def group_cell_communication(
         random_seed = leiden_random_seed, 
         n_iterations = leiden_n_iterations)
 
-    return keys, communication_clusterid, D
+    return communication_clusterid, D
 
 
 def group_communication_direction(
@@ -670,17 +700,25 @@ def group_communication_direction(
     Idenfitify groups of communication directions with similar
     pattern.
 
+    The cell-cell communication should have been computed by the function :func:`commot.tl.spatial_communication`.
+    The cell-cell communication direction should have been computed by the function :func:`commot.tl.communication_direction`.
+
     Parameters
     ----------
     adata
         The data matrix with the communication direction
-        info stored in ``adata.obsm``, e.g. adata.obsm['commot_sender_vf-pathway-lig-rec'].
+        info stored in ``adata.obsm``, e.g., ``.obsm['commot_sender_vf-databaseX-ligA-recA']`` stores the CCC direction of the LR pair 'ligA-recA' computed
+        with the LR database 'databaseX' summarized in the signal senders' perspective 
     keys
-        A list of keys for the analyzed communication connections as tuples 
-        (database_name, ligand, receptor). 
+        A list of keys for the analyzed communication connections as strings.
+        For example, the string ``'databaseX-pathwayX'`` represents the CCC of signaling pathway "pathwayX" computed with the LR database "databaseX".
+        For another example, the string ``'databaseX-ligA-recA'`` represents the CCC of the LR pair "ligA-recA" computed with the LR database "databaseX".
+        The computed CCC direction corresponding to the above examples (summarized as 'sent to' or 'received from' directions) should be available in 
+        ``.obsm['commot_sender_vf-databaseX-pathwayX]``,  ``.obsm['commot_receiver_vf-databaseX-pathwayX]``and
+        ``.obsm['commot_sender_vf-databaseX-ligA-recA']``, ``.obsm['commot_receiver_vf-databaseX-ligA-recA']``.
     summary
-        If 'sender', use the vector field describing to which direction the signals are sent.
-        If 'receiver', use the vector field describing from which direction the signals are from.
+        If 'sender', use the vector field describing to which direction the signals are sent to.
+        If 'receiver', use the vector field describing from which direction the signals are received from.
     knn_smoothing
         The number of neighbors to smooth the communication direction. 
         If -1, no smoothing is performed.
@@ -705,9 +743,6 @@ def group_communication_direction(
 
     Returns
     -------
-    keys : list
-        The list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor).
     direction_clusterid : np.ndarray
         The group id of the communication directions.
     D : np.ndarray
@@ -718,7 +753,7 @@ def group_communication_direction(
     # Process the vector fields
     V_list = []
     for key in keys:
-        V = adata.obsm['commot_%s_vf-%s-%s-%s' % (summary, key[0], key[1], key[2])]
+        V = adata.obsm['commot_%s_vf-%s' % (summary, key)]
         V_processed = preprocess_vector_field(adata.obsm['spatial'],
             V, knn_smoothing = knn_smoothing, normalize_vf = normalize_vf,
             quantile = normalize_quantile)
@@ -741,7 +776,7 @@ def group_communication_direction(
         random_seed = leiden_random_seed, 
         n_iterations = leiden_n_iterations)
     
-    return keys, direction_clusterid, D
+    return direction_clusterid, D
 
 
 def communication_spatial_autocorrelation(
@@ -759,14 +794,22 @@ def communication_spatial_autocorrelation(
     """
     Spatial autocorrelation of communication directions.
 
+    The spatial autocorrelation helps to detect spatial regions within which the CCC directions are similar.
+    The cell-cell communication should have been computed by the function :func:`commot.tl.spatial_communication`.
+    The cell-cell communication direction should have been computed by the function :func:`commot.tl.communication_direction`.
+
     Parameters
     ----------
     adata
         The data matrix with the communication vector fields
         info stored in ``adata.ubsm``.
     keys
-        A list of keys for the analyzed communication connections as tuples 
-        (database_name, ligand, receptor). 
+        A list of keys for the analyzed communication connections as strings.
+        For example, the string ``'databaseX-pathwayX'`` represents the CCC of signaling pathway "pathwayX" computed with the LR database "databaseX".
+        For another example, the string ``'databaseX-ligA-recA'`` represents the CCC of the LR pair "ligA-recA" computed with the LR database "databaseX".
+        The computed CCC direction corresponding to the above examples (summarized as 'sent to' or 'received from' directions) should be available in 
+        ``.obsm['commot_sender_vf-databaseX-pathwayX]``,  ``.obsm['commot_receiver_vf-databaseX-pathwayX]``and
+        ``.obsm['commot_sender_vf-databaseX-ligA-recA']``, ``.obsm['commot_receiver_vf-databaseX-ligA-recA']``.
     method
         The method to use. Currently, only Moran's I [Liu2015]_ for vectors is implemented.
     normalize_vf
@@ -792,9 +835,6 @@ def communication_spatial_autocorrelation(
 
     Returns
     -------
-    keys : list
-        The list of keys for the analyzed communication connections as tuples 
-        (pathway_name, ligand, receptor).
     moranI : np.ndarray
         A vector of moran's I statistics for corresponding to each key in keys.
     p_value : np.ndarray
@@ -811,7 +851,7 @@ def communication_spatial_autocorrelation(
     p_value = []
     X = adata.obsm['spatial']
     for key in keys:
-        V = adata.obsm['commot_%s_vf-%s-%s-%s' % (summary, key[0], key[1], key[2])]
+        V = adata.obsm['commot_%s_vf-%s' % (summary, key)]
         if normalize_vf:
             V = normalize(V)
         I,p = moranI_vector_global(X, V,
@@ -825,6 +865,6 @@ def communication_spatial_autocorrelation(
     moranI = np.array(moranI, float)
     p_value = np.array(p_value, float)
 
-    return keys, moranI, p_value
+    return moranI, p_value
 
 
