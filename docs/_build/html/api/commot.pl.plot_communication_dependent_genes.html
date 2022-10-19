@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.pl.plot_communication_dependent_genes &mdash; commot 0.1 documentation</title>
+  <title>commot.pl.plot_communication_dependent_genes &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a></li>
@@ -46,7 +49,10 @@
 <li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cell_communication.html">commot.pl.plot_cell_communication</a></li>
 <li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cluster_communication_network.html">commot.pl.plot_cluster_communication_network</a></li>
 <li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_cluster_communication_dotplot.html">commot.pl.plot_cluster_communication_dotplot</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">commot.pl.plot_communication_dependent_genes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">commot.pl.plot_communication_dependent_genes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#commot.pl.plot_communication_dependent_genes"><code class="docutils literal notranslate"><span class="pre">plot_communication_dependent_genes()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="commot.pl.plot_communication_impact.html">commot.pl.plot_communication_impact</a></li>
 </ul>
 </li>
@@ -83,9 +89,9 @@
 <h1>commot.pl.plot_communication_dependent_genes<a class="headerlink" href="#commot-pl-plot-communication-dependent-genes" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="commot.pl.plot_communication_dependent_genes">
-<span class="sig-prename descclassname"><span class="pre">commot.pl.</span></span><span class="sig-name descname"><span class="pre">plot_communication_dependent_genes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_yhat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_gene_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_ngene_per_cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'magma'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Plotly'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_genes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.pl.plot_communication_dependent_genes" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">commot.pl.</span></span><span class="sig-name descname"><span class="pre">plot_communication_dependent_genes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_yhat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_gene_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_ngene_per_cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'magma'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Plotly'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_genes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.pl.plot_communication_dependent_genes" title="Permalink to this definition"></a></dt>
 <dd><p>Plot smoothed gene expression of the detected communication-dependent genes.
-Takes input from <code class="docutils literal notranslate"><span class="pre">tl.communication_deg_clustering</span></code>.</p>
+Takes input from the function <a class="reference internal" href="commot.tl.communication_deg_clustering.html#commot.tl.communication_deg_clustering" title="commot.tl.communication_deg_clustering"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.communication_deg_clustering()</span></code></a>.</p>
 <a class="reference internal image-reference" href="../_images/communication_deg.png"><img alt="../_images/communication_deg.png" src="../_images/communication_deg.png" style="width: 500pt;" /></a>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

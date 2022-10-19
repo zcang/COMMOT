@@ -31,7 +31,7 @@ copyright = '2021, Zixuan Cang'
 author = 'Zixuan Cang'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = '0.0.2'
 
 
 # -- General configuration ---------------------------------------------------
@@ -40,13 +40,17 @@ release = '0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx_mdinclude',
     'sphinx_rtd_theme',
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'sphinx.ext.autosummary',
     'sphinx.ext.mathjax',
     'sphinx_autodoc_typehints',
+    'sphinx_rtd_size'
 ]
+
+sphinx_rtd_size_width = "75%"
 
 # Generate API documentation
 autosummary_generate = True

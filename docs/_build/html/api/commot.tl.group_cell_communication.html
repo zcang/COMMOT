@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.tl.group_cell_communication &mdash; commot 0.1 documentation</title>
+  <title>commot.tl.group_cell_communication &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
@@ -89,16 +92,19 @@
 <h1>commot.tl.group_cell_communication<a class="headerlink" href="#commot-tl-group-cell-communication" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="commot.tl.group_cell_communication">
-<span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">group_cell_communication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaussian_mixture'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_append_zeros</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dissimilarity_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'graphwave'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kw_graphwave</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.group_cell_communication" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">group_cell_communication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gaussian_mixture'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_append_zeros</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dissimilarity_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'graphwave'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kw_graphwave</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'approximation':</span> <span class="pre">100,</span> <span class="pre">'heat_coefficient':</span> <span class="pre">1.0,</span> <span class="pre">'mechanism':</span> <span class="pre">'approximation',</span> <span class="pre">'sample_number':</span> <span class="pre">200,</span> <span class="pre">'seed':</span> <span class="pre">42,</span> <span class="pre">'step_size':</span> <span class="pre">0.1,</span> <span class="pre">'switch':</span> <span class="pre">1000}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.group_cell_communication" title="Permalink to this definition"></a></dt>
 <dd><p>Idenfitify groups of cell-cell communication with similar
 pattern.</p>
+<p>The cell-cell communication should have been computed by the function <a class="reference internal" href="commot.tl.spatial_communication.html#commot.tl.spatial_communication" title="commot.tl.spatial_communication"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.spatial_communication()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix with the cell-cell communication
 info stored in <code class="docutils literal notranslate"><span class="pre">adata.obsp</span></code>.</p></li>
-<li><p><strong>keys</strong> – A list of keys for the analyzed communication connections as tuples
-(database_name, ligand, receptor).</p></li>
+<li><p><strong>keys</strong> – A list of keys for the analyzed communication connections as strings.
+For example, the string <code class="docutils literal notranslate"><span class="pre">'databaseX-pathwayX'</span></code> represents the CCC of signaling pathway “pathwayX” computed with the LR database “databaseX”.
+For another example, the string <code class="docutils literal notranslate"><span class="pre">'databaseX-ligA-recA'</span></code> represents the CCC of the LR pair “ligA-recA” computed with the LR database “databaseX”.
+The cell-level CCC networks corresponding to the above examples are stored in <code class="docutils literal notranslate"><span class="pre">.obsp['commot-databaseX-pathwayX]</span></code> and <code class="docutils literal notranslate"><span class="pre">.obsp['commot-databaseX-ligA-recA']</span></code>.</p></li>
 <li><p><strong>bin_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Method for binarize communication connections. Choices: ‘gaussian_mixture’, ‘kmeans’.</p></li>
 <li><p><strong>bin_append_zeros</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Number of zeros to append to the non-zero entries when running the binarization.
 ‘full’ use the full flattened cell-by-cell communication matrix.
@@ -110,7 +116,7 @@ info stored in <code class="docutils literal notranslate"><span class="pre">adat
 <li><p><strong>dissimilarity_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The method for quantifying dissimilarity.
 ‘graphwave’, node structural embedding by GraphWave <a class="reference internal" href="#donnat2018" id="id1"><span>[Donnat2018]</span></a> implemented
 in <a class="reference external" href="https://github.com/benedekrozemberczki/karateclub/">Karate Club</a>.</p></li>
-<li><p><strong>kw_graphwave</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – <p>Keywords for GraphWave. Defaults: {‘sample_number’:200, ‘step_size’:0.1, ‘heat_coefficient’: 1.0
+<li><p><strong>kw_graphwave</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code>) – <p>Keywords for GraphWave. Defaults: {‘sample_number’:200, ‘step_size’:0.1, ‘heat_coefficient’: 1.0,
 ‘approximation’:100, ‘mechanism’:’approximation’, ‘switch’:1000, ‘seed’:42} See details at <a class="reference external" href="https://github.com/benedekrozemberczki/karateclub/">Karate Club</a>.</p>
 </p></li>
 <li><p><strong>leiden_k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of neighbors for the knn-graph to be fed to leiden clustering algorithm.</p></li>
@@ -122,8 +128,6 @@ The algorithm will run until convergence if set to -1.</p></li>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>keys</strong> (<em>list</em>) – The list of keys for the analyzed communication connections as tuples
-(pathway_name, ligand, receptor).</p></li>
 <li><p><strong>communication_clusterid</strong> (<em>np.ndarray</em>) – The group id of the cell-cell communications.</p></li>
 <li><p><strong>D</strong> (<em>np.ndarray</em>) – The dissimilarity matrix for the cell-cell communications.</p></li>
 </ul>

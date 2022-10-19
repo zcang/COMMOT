@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.tl.communication_deg_detection &mdash; commot 0.1 documentation</title>
+  <title>commot.tl.communication_deg_detection &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
@@ -91,40 +94,45 @@
 <dt class="sig sig-object py" id="commot.tl.communication_deg_detection">
 <span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">communication_deg_detection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_var_genes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">var_genes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pathway_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'receiver'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_pair</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('total',</span> <span class="pre">'total')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nknots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_deg_genes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg_pvalue_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.communication_deg_detection" title="Permalink to this definition"></a></dt>
 <dd><p>Identify signaling dependent genes</p>
-<dl class="simple">
-<dt>adata</dt><dd><p>The data matrix of shape <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_var</span></code>.
+<p>This function depends on tradeSeq <a class="reference internal" href="#van-den-berge2020" id="id1"><span>[Van_den_Berge2020]</span></a>. Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work.
+For the R-python interface, rpy2==3.4.2 and anndata2ri==1.0.6 have been tested to work.</p>
+<p>Here, the total received or sent signal for the spots are considered as a “gene expression” where tradeSeq is used to find the correlated genes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix of shape <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_var</span></code>.
 Rows correspond to cells or positions and columns to genes.
 The count data should be available through adata.layers[‘count’].
-The signaling data should be available in
-adata.obsm[‘commot-$pathway_name-sum’][‘$summary-$ligand-$receptor’]</p>
+For example, when examining the received signal through the ligand-receptor pair “ligA” and “RecA” infered with the LR database “databaseX”,
+the signaling inference result should be available in
+<code class="docutils literal notranslate"><span class="pre">adata.obsm['commot-databaseX-sum-receiver']['r-ligA-recA']</span></code></p></li>
+<li><p><strong>n_var_genes</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The number of most variable genes to test.</p></li>
+<li><p><strong>var_genes</strong> – The genes to test. n_var_genes will be ignored if given.</p></li>
+<li><p><strong>n_deg_genes</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – The number of top deg genes to evaluate yhat.</p></li>
+<li><p><strong>pathway_name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Name of the signaling pathway (choose from the third column of <code class="docutils literal notranslate"><span class="pre">.uns['commot-databaseX-info']['df_ligrec']</span></code>).
+If <code class="docutils literal notranslate"><span class="pre">pathway_name</span></code> is specified, <code class="docutils literal notranslate"><span class="pre">lr_pair</span></code> will be ignored.</p></li>
+<li><p><strong>summary</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – ‘sender’ or ‘receiver’</p></li>
+<li><p><strong>lr_pair</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – A tuple of the ligand-receptor pair.
+If <code class="docutils literal notranslate"><span class="pre">pathway_name</span></code> is specified, <code class="docutils literal notranslate"><span class="pre">lr_pair</span></code> will be ignored.</p></li>
+<li><p><strong>nknots</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of knots in spline when constructing GAM.</p></li>
+<li><p><strong>n_points</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of points on which to evaluate the fitted GAM
+for downstream clustering and visualization.</p></li>
+<li><p><strong>deg_pvalue_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The p-value cutoff of genes for obtaining the fitted gene expression patterns.</p></li>
+</ul>
 </dd>
-<dt>n_var_genes</dt><dd><p>The number of most variable genes to test.</p>
-</dd>
-<dt>var_genes</dt><dd><p>The genes to test. n_var_genes will be ignored if given.</p>
-</dd>
-<dt>n_deg_genes</dt><dd><p>The number of top deg genes to evaluate yhat.</p>
-</dd>
-<dt>pathway_name</dt><dd><p>Name of the signaling pathway.</p>
-</dd>
-<dt>summary</dt><dd><p>‘sender’ or ‘receiver’</p>
-</dd>
-<dt>lr_pair</dt><dd><p>A tuple of the ligand-receptor pair</p>
-</dd>
-<dt>nknots</dt><dd><p>Number of knots in spline when constructing GAM</p>
-</dd>
-<dt>n_points</dt><dd><p>Number of points on which to evaluate the fitted GAM
-for downstream clustering and visualization.</p>
-</dd>
-<dt>deg_pvalue_cutoff</dt><dd><p>The p-value cutoff of genes for obtaining the fitted gene expression patterns.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><ul class="simple">
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
 <li><p><strong>df_deg</strong> (<em>pd.DataFrame</em>) – A data frame of deg analysis results, including Wald statistics, degree of freedom, and p-value.</p></li>
 <li><p><strong>df_yhat</strong> (<em>pd.DataFrame</em>) – A data frame of smoothed gene expression values.</p></li>
 </ul>
 </p>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="van-den-berge2020"><span class="brackets"><a class="fn-backref" href="#id1">Van_den_Berge2020</a></span></dt>
+<dd><p>Van den Berge, K., Roux de Bézieux, H., Street, K., Saelens, W., Cannoodt, R., Saeys, Y., … &amp; Clement, L. (2020).
+Trajectory-based differential expression analysis for single-cell sequencing data. Nature communications, 11(1), 1-13.</p>
 </dd>
 </dl>
 </dd></dl>

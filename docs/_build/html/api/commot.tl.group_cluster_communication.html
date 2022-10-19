@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.tl.group_cluster_communication &mdash; commot 0.1 documentation</title>
+  <title>commot.tl.group_cluster_communication &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
@@ -89,38 +92,42 @@
 <h1>commot.tl.group_cluster_communication<a class="headerlink" href="#commot-tl-group-cluster-communication" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="commot.tl.group_cluster_communication">
-<span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">group_cluster_communication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.99</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dissimilarity_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_global_structure_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.45,</span> <span class="pre">0.45,</span> <span class="pre">0.1)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.group_cluster_communication" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">group_cluster_communication</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clustering</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_permutation_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.99</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dissimilarity_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leiden_n_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d_global_structure_weights</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0.45,</span> <span class="pre">0.45,</span> <span class="pre">0.1)</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.group_cluster_communication" title="Permalink to this definition"></a></dt>
 <dd><p>Idenfitify groups of cluster-cluster communication with similar
 pattern.</p>
+<p>The CCC inference should have been summarized to cluster level using either <a class="reference internal" href="commot.tl.cluster_communication.html#commot.tl.cluster_communication" title="commot.tl.cluster_communication"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.cluster_communication()</span></code></a> function
+or <a class="reference internal" href="commot.tl.cluster_communication_spatial_permutation.html#commot.tl.cluster_communication_spatial_permutation" title="commot.tl.cluster_communication_spatial_permutation"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.cluster_communication_spatial_permutation()</span></code></a> function. The dissimilarities among different ligand-receptor pairs or signaling pathways
+are first quantified which will be used with the leiden clustering algorithm <a class="reference internal" href="#traag2019" id="id1"><span>[Traag2019]</span></a> to cluster these CCC networks.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix with the cluster-cluster communication
 info stored in <code class="docutils literal notranslate"><span class="pre">adata.uns</span></code>.</p></li>
 <li><p><strong>clustering</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Name of clustering with the labels stored in <code class="docutils literal notranslate"><span class="pre">.obs[clustering]</span></code>.</p></li>
-<li><p><strong>keys</strong> – A list of keys for the analyzed communication connections as tuples
-(database_name, ligand, receptor).</p></li>
+<li><p><strong>cluster_permutation_type</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – <code class="docutils literal notranslate"><span class="pre">'label'</span></code> if the function <a class="reference internal" href="commot.tl.cluster_communication.html#commot.tl.cluster_communication" title="commot.tl.cluster_communication"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.cluster_communication()</span></code></a> was used and <code class="docutils literal notranslate"><span class="pre">'spatial'</span></code> if <a class="reference internal" href="commot.tl.cluster_communication_spatial_permutation.html#commot.tl.cluster_communication_spatial_permutation" title="commot.tl.cluster_communication_spatial_permutation"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.cluster_communication_spatial_permutation()</span></code></a> was used.</p></li>
+<li><p><strong>keys</strong> – A list of keys for the analyzed communication connections as strings.
+For example, the string <code class="docutils literal notranslate"><span class="pre">'databaseX-pathwayX'</span></code> represents the cluster-level CCC of signaling pathway “pathwayX” computed with the LR database “databaseX”.
+For another example, the string <code class="docutils literal notranslate"><span class="pre">'databaseX-ligA-recA'</span></code> represents the cluster-level CCC of the LR pair “ligA-recA” computed with the LR database “databaseX”.</p></li>
+<li><p><strong>p_value_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The cutoff of p-value for including an edge.</p></li>
 <li><p><strong>quantile_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The quantile cutoff for including an edge. Set to 1 to disable this criterion.
 The quantile_cutoff and p_value_cutoff works in the “or” logic to avoid missing
-significant signaling connections.</p></li>
-<li><p><strong>p_value_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The cutoff of p-value to plot an edge.</p></li>
+significant signaling connections.
+An edge will be ignored only if it has a p-value greater than the <code class="docutils literal notranslate"><span class="pre">p_value_cutoff</span></code> and a score smaller than the score quantile cutoff.</p></li>
 <li><p><strong>dissimilarity_method</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The dissimilarity measurement between graphs to use.
 ‘jaccard’ for Jaccard distance.
 ‘jaccard_weighted’ for weighted Jaccard distance.
-‘global_structure’ for a metric focusing on global structure <a class="reference internal" href="#schieber2017" id="id1"><span>[Schieber2017]</span></a>.</p></li>
-<li><p><strong>leiden_k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of neighbors for the knn-graph to be fed to leiden clustering algorithm.</p></li>
+‘global_structure’ for a metric focusing on global structure <a class="reference internal" href="#schieber2017" id="id2"><span>[Schieber2017]</span></a>.</p></li>
+<li><p><strong>leiden_k</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of neighbors for the knn-graph for using leiden clustering algorithm.</p></li>
 <li><p><strong>leiden_resolution</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The resolution parameter for the leiden clustering algorithm.</p></li>
 <li><p><strong>leiden_random_seed</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The random seed for the leiden clustering algorithm.</p></li>
 <li><p><strong>leiden_n_iterations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – The maximum number of iterations for the leiden algorithm.
 The algorithm will run until convergence if set to -1.</p></li>
 <li><p><strong>d_global_structure_weights</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>) – The weights for the three terms in the global structural dissimilarity.
-See <a class="reference internal" href="#schieber2017" id="id2"><span>[Schieber2017]</span></a> for more information.</p></li>
+See <a class="reference internal" href="#schieber2017" id="id3"><span>[Schieber2017]</span></a> for more information.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>keys</strong> (<em>list</em>) – The list of keys for the analyzed communication connections as tuples
-(pathway_name, ligand, receptor).</p></li>
 <li><p><strong>communication_clusterid</strong> (<em>np.ndarray</em>) – The group id of the cluster-cluster communications.</p></li>
 <li><p><strong>D</strong> (<em>np.ndarray</em>) – The dissimilarity matrix for the cluster-cluster communications.</p></li>
 </ul>
@@ -129,10 +136,14 @@ See <a class="reference internal" href="#schieber2017" id="id2"><span>[Schieber2
 </dl>
 <p class="rubric">References</p>
 <dl class="citation">
-<dt class="label" id="schieber2017"><span class="brackets">Schieber2017</span><span class="fn-backref">(<a href="#id1">1</a>,<a href="#id2">2</a>)</span></dt>
+<dt class="label" id="schieber2017"><span class="brackets">Schieber2017</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
 <dd><p>Schieber, T. A., Carpi, L., Díaz-Guilera, A., Pardalos,
 P. M., Masoller, C., &amp; Ravetti, M. G. (2017). Quantification
 of network structural dissimilarities. Nature communications, 8(1), 1-10.</p>
+</dd>
+<dt class="label" id="traag2019"><span class="brackets"><a class="fn-backref" href="#id1">Traag2019</a></span></dt>
+<dd><p>Traag, V. A., Waltman, L., &amp; Van Eck, N. J. (2019).
+From Louvain to Leiden: guaranteeing well-connected communities. Scientific reports, 9(1), 1-12.</p>
 </dd>
 </dl>
 </dd></dl>

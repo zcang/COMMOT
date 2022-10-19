@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.tl.communication_deg_clustering &mdash; commot 0.1 documentation</title>
+  <title>commot.tl.communication_deg_clustering &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
@@ -94,9 +97,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df_deg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – The deg analysis summary data frame obtained by running <code class="docutils literal notranslate"><span class="pre">communication_deg_detection</span></code>.
+<li><p><strong>df_deg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – The deg analysis summary data frame obtained by running <code class="docutils literal notranslate"><span class="pre">commot.tl.communication_deg_detection</span></code>.
 Each row corresponds to one tested genes and columns include “waldStat” (Wald statistics), “df” (degrees of freedom), and “pvalue” (p-value of the Wald statistics).</p></li>
-<li><p><strong>df_yhat</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – The fitted (smoothed) gene expression pattern obtained by running <code class="docutils literal notranslate"><span class="pre">tl.communication_deg_detection</span></code>.</p></li>
+<li><p><strong>df_yhat</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – The fitted (smoothed) gene expression pattern obtained by running <code class="docutils literal notranslate"><span class="pre">commot.tl.communication_deg_detection</span></code>.</p></li>
 <li><p><strong>deg_clustering_npc</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of PCs when performing PCA to cluster gene expression patterns</p></li>
 <li><p><strong>deg_clustering_knn</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of neighbors when constructing the knn graph for leiden clustering.</p></li>
 <li><p><strong>deg_clustering_res</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The resolution parameter for leiden clustering.</p></li>

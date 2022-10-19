@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.pp.ligand_receptor_database &mdash; commot 0.1 documentation</title>
+  <title>commot.pp.ligand_receptor_database &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,10 +41,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="commot.pp.infer_spatial_information.html">commot.pp.infer_spatial_information</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">commot.pp.ligand_receptor_database</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">commot.pp.ligand_receptor_database</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#commot.pp.ligand_receptor_database"><code class="docutils literal notranslate"><span class="pre">ligand_receptor_database()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="commot.pp.filter_lr_database.html">commot.pp.filter_lr_database</a></li>
 </ul>
 </li>
@@ -86,11 +92,12 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>database</strong> – The name of the ligand-receptor database. Currently, only CellChatDB <a class="reference internal" href="#jin2021" id="id1"><span>[Jin2021]</span></a> is available.</p></li>
+<li><p><strong>database</strong> – The name of the ligand-receptor database. CellChatDB <a class="reference internal" href="#jin2021" id="id1"><span>[Jin2021]</span></a> and CellPhoneDB_v4.0 <a class="reference internal" href="#efremova2020" id="id2"><span>[Efremova2020]</span></a> are available.</p></li>
 <li><p><strong>species</strong> – The species of the ligand-receptor pairs. Choose between ‘mouse’ and ‘human’.</p></li>
 <li><p><strong>heteromeric_delimiter</strong> – The character to separate the heteromeric units of heteromeric ligands and receptors.
 For example, if the heteromeric receptor (TGFbR1, TGFbR2) will be represented as ‘TGFbR1_TGFbR2’ if this parameter is set to ‘_’.</p></li>
-<li><p><strong>signaling_type</strong> – The type of signaling. Choose from ‘Secreted Signaling’, ‘Cell-Cell contact’, and ‘ECM-Receptor’. If None, all pairs in the database are returned.</p></li>
+<li><p><strong>signaling_type</strong> – The type of signaling. Choose from ‘Secreted Signaling’, ‘Cell-Cell Contact’, and ‘ECM-Receptor’ for CellChatDB or ‘Secreted Signaling’ and ‘Cell-Cell Contact’ for CellPhoneDB_v4.0.
+If None, all pairs in the database are returned.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -105,6 +112,10 @@ For example, if the heteromeric receptor (TGFbR1, TGFbR2) will be represented as
 <dt class="label" id="jin2021"><span class="brackets"><a class="fn-backref" href="#id1">Jin2021</a></span></dt>
 <dd><p>Jin, S., Guerrero-Juarez, C. F., Zhang, L., Chang, I., Ramos, R., Kuan, C. H., … &amp; Nie, Q. (2021).
 Inference and analysis of cell-cell communication using CellChat. Nature communications, 12(1), 1-20.</p>
+</dd>
+<dt class="label" id="efremova2020"><span class="brackets"><a class="fn-backref" href="#id2">Efremova2020</a></span></dt>
+<dd><p>Efremova, M., Vento-Tormo, M., Teichmann, S. A., &amp; Vento-Tormo, R. (2020).
+CellPhoneDB: inferring cell–cell communication from combined expression of multi-subunit ligand–receptor complexes. Nature protocols, 15(4), 1484-1506.</p>
 </dd>
 </dl>
 </dd></dl>

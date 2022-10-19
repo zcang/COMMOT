@@ -6,8 +6,11 @@
 CommOT: Spatial analysis of cell-cell communication.
 ====================================================
 
+.. mdinclude:: frontpage.md
+
 .. toctree::
    :maxdepth: 1
    :hidden:
 
+   installation
    api/index

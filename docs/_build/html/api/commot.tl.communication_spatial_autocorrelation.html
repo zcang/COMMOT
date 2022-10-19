@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.tl.communication_spatial_autocorrelation &mdash; commot 0.1 documentation</title>
+  <title>commot.tl.communication_spatial_autocorrelation &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
@@ -91,13 +94,20 @@
 <dt class="sig sig-object py" id="commot.tl.communication_spatial_autocorrelation">
 <span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">communication_spatial_autocorrelation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Moran'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize_vf</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">summary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sender'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_bandwidth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'triangular'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight_row_standardize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_permutations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">999</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.communication_spatial_autocorrelation" title="Permalink to this definition"></a></dt>
 <dd><p>Spatial autocorrelation of communication directions.</p>
+<p>The spatial autocorrelation helps to detect spatial regions within which the CCC directions are similar.
+The cell-cell communication should have been computed by the function <a class="reference internal" href="commot.tl.spatial_communication.html#commot.tl.spatial_communication" title="commot.tl.spatial_communication"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.spatial_communication()</span></code></a>.
+The cell-cell communication direction should have been computed by the function <a class="reference internal" href="commot.tl.communication_direction.html#commot.tl.communication_direction" title="commot.tl.communication_direction"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.communication_direction()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix with the communication vector fields
 info stored in <code class="docutils literal notranslate"><span class="pre">adata.ubsm</span></code>.</p></li>
-<li><p><strong>keys</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – A list of keys for the analyzed communication connections as tuples
-(database_name, ligand, receptor).</p></li>
+<li><p><strong>keys</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – A list of keys for the analyzed communication connections as strings.
+For example, the string <code class="docutils literal notranslate"><span class="pre">'databaseX-pathwayX'</span></code> represents the CCC of signaling pathway “pathwayX” computed with the LR database “databaseX”.
+For another example, the string <code class="docutils literal notranslate"><span class="pre">'databaseX-ligA-recA'</span></code> represents the CCC of the LR pair “ligA-recA” computed with the LR database “databaseX”.
+The computed CCC direction corresponding to the above examples (summarized as ‘sent to’ or ‘received from’ directions) should be available in
+<code class="docutils literal notranslate"><span class="pre">.obsm['commot_sender_vf-databaseX-pathwayX]</span></code>,  <code class="docutils literal notranslate"><span class="pre">.obsm['commot_receiver_vf-databaseX-pathwayX]``and</span>
+<span class="pre">``.obsm['commot_sender_vf-databaseX-ligA-recA']</span></code>, <code class="docutils literal notranslate"><span class="pre">.obsm['commot_receiver_vf-databaseX-ligA-recA']</span></code>.</p></li>
 <li><p><strong>method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The method to use. Currently, only Moran’s I <a class="reference internal" href="#liu2015" id="id1"><span>[Liu2015]</span></a> for vectors is implemented.</p></li>
 <li><p><strong>normalize_vf</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to normalize the vector field so that the autocorrelation only reflects
 directions.</p></li>
@@ -116,8 +126,6 @@ density does not affect the results.</p></li>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>keys</strong> (<em>list</em>) – The list of keys for the analyzed communication connections as tuples
-(pathway_name, ligand, receptor).</p></li>
 <li><p><strong>moranI</strong> (<em>np.ndarray</em>) – A vector of moran’s I statistics for corresponding to each key in keys.</p></li>
 <li><p><strong>p_value</strong> (<em>np.ndarray</em>) – The p-values.</p></li>
 </ul>

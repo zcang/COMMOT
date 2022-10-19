@@ -4,9 +4,10 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>commot.tl.communication_impact &mdash; commot 0.1 documentation</title>
+  <title>commot.tl.communication_impact &mdash; commot 0.0.2 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -16,6 +17,7 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -39,6 +41,7 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="index.html#module-commot.pp">Preprocessing: pp</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#module-commot.tl">Tools: tl</a><ul class="current">
@@ -100,7 +103,10 @@ If the unique impact of signaling in addition to the intra-cellular regulatory i
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix of shape <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_var</span></code>.
 Rows correspond to cells or positions and columns to genes.
 The full normalized dataset should be available in <code class="docutils literal notranslate"><span class="pre">adata.raw</span></code>.</p></li>
+<li><p><strong>database_name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Name of the ligand-receptor database.</p></li>
 <li><p><strong>pathway_name</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – Name of the signaling pathway.</p></li>
+<li><p><strong>pathway_sum_only</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, examine only the total signaling activity sum over signaling pathways without looking at individual ligand-receptor pairs.</p></li>
+<li><p><strong>heteromeric_delimiter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – The delimiter that separates heteromeric units in the ligand-receptor database.</p></li>
 <li><p><strong>normalize</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to perform normalization before determining variable genes.</p></li>
 <li><p><strong>method</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – ‘partial_corr’: partial correlation.
 ‘semipartial_corr’: semipartial correlation.
@@ -116,7 +122,7 @@ The full normalized dataset should be available in <code class="docutils literal
 <li><p><strong>tree_learning_rate</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Learning rate when using ‘treebased_score’.</p></li>
 <li><p><strong>tree_subsample</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – Subsample (between 0 and 1) when using ‘treebased_score’.</p></li>
 <li><p><strong>tree_combined</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, use a single model for each target gene with all features.</p></li>
-<li><p><strong>ds_genes</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – A list of genes for analyzing the correlation with cell-cell communication.</p></li>
+<li><p><strong>ds_genes</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>]) – A list of genes for analyzing the correlation with cell-cell communication, for example, the highly variable genes.</p></li>
 <li><p><strong>bg_genes</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – If an integer, the top number of variable genes are used.
 Alternatively, a list of genes.</p></li>
 </ul>
