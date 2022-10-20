@@ -71,10 +71,63 @@
   <section id="commot-spatial-analysis-of-cell-cell-communication">
 <h1>CommOT: Spatial analysis of cell-cell communication.<a class="headerlink" href="#commot-spatial-analysis-of-cell-cell-communication" title="Permalink to this heading"></a></h1>
 </section>
-<section id="commot-spatial-analysis-of-cell-cell-communicationsss">
-<h1>CommOT: Spatial analysis of cell-cell communicationsss.<a class="headerlink" href="#commot-spatial-analysis-of-cell-cell-communicationsss" title="Permalink to this heading"></a></h1>
+<section id="commot">
+<h1>COMMOT<a class="headerlink" href="#commot" title="Permalink to this heading"></a></h1>
+<p>Screening cell-cell communication in spatial transcriptomics via collective optimal transport</p>
+<a class="reference external image-reference" href="https://github.com/zcang/COMMOT/actions/workflows/python-package.yml/badge.svg"><img alt="pytest" src="https://github.com/zcang/COMMOT/actions/workflows/python-package.yml/badge.svg" /></a>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>Install by <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">COMMOT</span></code> or</p>
+<ol class="arabic simple">
+<li><p>Install the dependencies.  <span class="raw-html-md"><br /></span>
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code></p></li>
+<li><p>Install COMMOT by cd to this directory and  <span class="raw-html-md"><br /></span>
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">.</span></code></p></li>
+<li><p>[Optional] Install <a class="reference external" href="https://github.com/statOmics/tradeSeq">tradeSeq</a> in R to analyze the CCC differentially expressed genes.  <span class="raw-html-md"><br /></span>
+Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work.  <span class="raw-html-md"><br /></span>
+In order for the R-python interface to work properly, rpy2==3.4.2 and anndata2ri==1.0.6 should be installed.</p></li>
+</ol>
+</section>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p><strong>Basic usage</strong></p>
+<p><em>Import packages</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">commot</span> <span class="k">as</span> <span class="nn">ct</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p><em>Load a spatial dataset</em>  <span class="raw-html-md"><br /></span>
+(e.g., a Visium dataset)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">visium_sge</span><span class="p">(</span><span class="n">sample_id</span><span class="o">=</span><span class="s1">&#39;V1_Mouse_Brain_Sagittal_Posterior&#39;</span><span class="p">)</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">var_names_make_unique</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><em>Basic processing</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">normalize_total</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><em>Specify ligand-receptor pairs</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LR</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="s1">&#39;Tgfb1&#39;</span><span class="p">,</span> <span class="s1">&#39;Tgfbr1_Tgfbr2&#39;</span><span class="p">,</span> <span class="s1">&#39;Tgfb_pathway&#39;</span><span class="p">],[</span><span class="s1">&#39;Tgfb2&#39;</span><span class="p">,</span> <span class="s1">&#39;Tgfbr1_Tgfbr2&#39;</span><span class="p">,</span> <span class="s1">&#39;Tgfb_pathway&#39;</span><span class="p">],[</span><span class="s1">&#39;Tgfb3&#39;</span><span class="p">,</span> <span class="s1">&#39;Tgfbr1_Tgfbr2&#39;</span><span class="p">,</span> <span class="s1">&#39;Tgfb_pathway&#39;</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">df_ligrec</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">LR</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(or use pairs from a ligand-receptor database <code class="docutils literal notranslate"><span class="pre">df_ligrec=ct.pp.ligand_receptor_database(database='CellChat',</span> <span class="pre">species='mouse')</span></code>.)</p>
+<p><em>Construct CCC networks</em>  <span class="raw-html-md"><br /></span>
+Use collective optimal transport to construct CCC networks for the ligand-receptor pairs with a spatial distance constraint of 200 (coupling between cells with distance greater than 200 is prohibited). For example, the spot-by-spot matrix for the pair Tgfb1 (ligand) and Tgfbr1_Tgfbr2 (receptor)is stored in <code class="docutils literal notranslate"><span class="pre">adata.obsp['commot-user_database-Tgfb1-Tgfbr1_Tgfbr2']</span></code>. The total sent or received signal for each pair is stored in <code class="docutils literal notranslate"><span class="pre">adata.obsm['commot-user_database-sum-sender']</span></code> and <code class="docutils literal notranslate"><span class="pre">adata.obsm['commot-user_database-sum-receiver']</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ct</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">spatial_communication</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span>
+    <span class="n">database_name</span><span class="o">=</span><span class="s1">&#39;user_database&#39;</span><span class="p">,</span> <span class="n">df_ligrec</span><span class="o">=</span><span class="n">df_ligrec</span><span class="p">,</span> <span class="n">dis_thr</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">heteromeric</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Documentation</strong></p>
+<p>See the documentation at <a class="reference external" href="https://commot.readthedocs.io/en/latest/index.html">https://commot.readthedocs.io/en/latest/index.html</a> for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.</p>
+<p><strong>Reference</strong></p>
+<p>Cang, Zixuan, Yanxiang Zhao, Axel A. Almet, Adam Stabell, Raul Ramos, Maksim Plikus, Scott X. Atwood, and Qing Nie. “Screening cell-cell communication in spatial transcriptomics via collective optimal transport.” bioRxiv (2022): 505185</p>
 <div class="toctree-wrapper compound">
 </div>
+</section>
 </section>
 
 
