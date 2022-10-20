@@ -4,15 +4,12 @@ Screening cell-cell communication in spatial transcriptomics via collective opti
 ![pytest](https://github.com/zcang/COMMOT/actions/workflows/python-package.yml/badge.svg)
 
 ## Installation
-Install by `pip install COMMOT` or
+Install from PyPI by `pip install commot` or install from source by cd to this directory and `pip install .`
 
-1. Install the dependencies. \
-   `pip install -r requirements.txt`
-2. Install COMMOT by cd to this directory and \
-   `pip install .`
-3. [Optional] Install [tradeSeq](https://github.com/statOmics/tradeSeq) in R to analyze the CCC differentially expressed genes. \
-   Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work. \
-   In order for the R-python interface to work properly, rpy2==3.4.2 and anndata2ri==1.0.6 should be installed.
+[Optional] Install [tradeSeq](https://github.com/statOmics/tradeSeq) in R to analyze the CCC differentially expressed genes. \
+Currently, tradeSeq version 1.0.1 with R version 3.6.3 has been tested to work. \
+In order for the R-python interface to work properly, rpy2==3.4.2 and anndata2ri==1.0.6 should be installed.
+To use this feature, install from PyPI by `pip install commot[tradeSeq]` or from source by `pip install .[tradeSeq]`.
 
 ## Usage
 **Basic usage**
