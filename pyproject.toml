@@ -61,5 +61,5 @@ doc = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["commot*"]
+include = ["*"]
 exclude = ["tests*"]
