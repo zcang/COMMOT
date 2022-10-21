@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>API &mdash; commot 0.0.2 documentation</title>
+  <title>API &mdash; commot 0.0.3 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/sphinx_rtd_size.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -18,11 +19,12 @@
         <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../_static/doctools.js"></script>
         <script src="../_static/sphinx_highlight.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="commot.pp.infer_spatial_information" href="commot.pp.infer_spatial_information.html" />
-    <link rel="prev" title="Installation" href="../installation.html" /> 
+    <link rel="prev" title="Visium data example (mouse brain)" href="../notebooks/visium-mouse_brain.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,6 +44,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-commot.pp">Preprocessing: pp</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="commot.pp.infer_spatial_information.html">commot.pp.infer_spatial_information</a></li>
@@ -106,15 +109,35 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <span class="target" id="module-commot"></span><section id="api">
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<span class="target" id="module-commot"></span><section id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this heading"></a></h1>
 <section id="module-commot.pp">
 <span id="preprocessing-pp"></span><h2>Preprocessing: pp<a class="headerlink" href="#module-commot.pp" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="commot.pp.infer_spatial_information.html#commot.pp.infer_spatial_information" title="commot.pp.infer_spatial_information"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pp.infer_spatial_information</span></code></a>(adata_sc, adata_sp)</p></td>
 <td><p>Infer spatial information.</p></td>
@@ -133,10 +156,6 @@
 <section id="communication-inference">
 <h3>Communication inference<a class="headerlink" href="#communication-inference" title="Permalink to this heading"></a></h3>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.spatial_communication.html#commot.tl.spatial_communication" title="commot.tl.spatial_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.spatial_communication</span></code></a>(adata[, ...])</p></td>
 <td><p>Infer spatial communication.</p></td>
@@ -159,10 +178,6 @@
 <section id="downstream-analysis">
 <h3>Downstream analysis<a class="headerlink" href="#downstream-analysis" title="Permalink to this heading"></a></h3>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="commot.tl.communication_deg_detection.html#commot.tl.communication_deg_detection" title="commot.tl.communication_deg_detection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tl.communication_deg_detection</span></code></a>(adata[, ...])</p></td>
 <td><p>Identify signaling dependent genes</p></td>
@@ -192,10 +207,6 @@
 <section id="module-commot.pl">
 <span id="plotting-pl"></span><h2>Plotting: pl<a class="headerlink" href="#module-commot.pl" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="commot.pl.plot_cell_communication.html#commot.pl.plot_cell_communication" title="commot.pl.plot_cell_communication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pl.plot_cell_communication</span></code></a>(adata[, ...])</p></td>
 <td><p>Plot spatial directions of cell-cell communication.</p></td>
@@ -221,7 +232,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../notebooks/visium-mouse_brain.html" class="btn btn-neutral float-left" title="Visium data example (mouse brain)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="commot.pp.infer_spatial_information.html" class="btn btn-neutral float-right" title="commot.pp.infer_spatial_information" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

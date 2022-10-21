@@ -23,3 +23,6 @@ sphinxcontrib-jsmath==1.0.1
 sphinxcontrib-qthelp==1.0.3
 sphinxcontrib-serializinghtml==1.1.5
 sphinx-mdinclude==0.5.3
+nbsphinx==0.8.9
+sphinx-gallery==0.11.1
+ipykernel

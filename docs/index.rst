@@ -15,4 +15,5 @@ COMMOT: Spatial analysis of cell-cell communication.
    :hidden:
 
    installation
+   tutorials
    api/index
