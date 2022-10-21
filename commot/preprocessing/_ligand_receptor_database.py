@@ -17,7 +17,7 @@ def ligand_receptor_database(
     Parameters
     ----------
     database
-        The name of the ligand-receptor database. CellChatDB [Jin2021]_ and CellPhoneDB_v4.0 [Efremova2020]_ are available.
+        The name of the ligand-receptor database. Use 'CellChat' for CellChatDB [Jin2021]_ of 'CellPhoneDB_v4.0' for CellPhoneDB_v4.0 [Efremova2020]_.
     species
         The species of the ligand-receptor pairs. Choose between 'mouse' and 'human'.
     heteromeric_delimiter

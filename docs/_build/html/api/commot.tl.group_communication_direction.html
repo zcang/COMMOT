@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.tl.group_communication_direction &mdash; commot 0.0.3 documentation</title>
@@ -125,7 +125,7 @@ pattern.</p>
 <p>The cell-cell communication should have been computed by the function <a class="reference internal" href="commot.tl.spatial_communication.html#commot.tl.spatial_communication" title="commot.tl.spatial_communication"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.spatial_communication()</span></code></a>.
 The cell-cell communication direction should have been computed by the function <a class="reference internal" href="commot.tl.communication_direction.html#commot.tl.communication_direction" title="commot.tl.communication_direction"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.communication_direction()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix with the communication direction
 info stored in <code class="docutils literal notranslate"><span class="pre">adata.obsm</span></code>, e.g., <code class="docutils literal notranslate"><span class="pre">.obsm['commot_sender_vf-databaseX-ligA-recA']</span></code> stores the CCC direction of the LR pair ‘ligA-recA’ computed
@@ -153,7 +153,7 @@ If None, original unit is used.</p></li>
 The algorithm will run until convergence if set to -1.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>direction_clusterid</strong> (<em>np.ndarray</em>) – The group id of the communication directions.</p></li>
 <li><p><strong>D</strong> (<em>np.ndarray</em>) – The dissimilarity matrix for the communication directions.</p></li>

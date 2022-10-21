@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.tl.communication_deg_detection &mdash; commot 0.0.3 documentation</title>
@@ -125,7 +125,7 @@
 For the R-python interface, rpy2==3.4.2 and anndata2ri==1.0.6 have been tested to work.</p>
 <p>Here, the total received or sent signal for the spots are considered as a “gene expression” where tradeSeq is used to find the correlated genes.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix of shape <code class="docutils literal notranslate"><span class="pre">n_obs</span></code> × <code class="docutils literal notranslate"><span class="pre">n_var</span></code>.
 Rows correspond to cells or positions and columns to genes.
@@ -147,7 +147,7 @@ for downstream clustering and visualization.</p></li>
 <li><p><strong>deg_pvalue_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The p-value cutoff of genes for obtaining the fitted gene expression patterns.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>df_deg</strong> (<em>pd.DataFrame</em>) – A data frame of deg analysis results, including Wald statistics, degree of freedom, and p-value.</p></li>
 <li><p><strong>df_yhat</strong> (<em>pd.DataFrame</em>) – A data frame of smoothed gene expression values.</p></li>
@@ -156,13 +156,12 @@ for downstream clustering and visualization.</p></li>
 </dd>
 </dl>
 <p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="van-den-berge2020" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Van_den_Berge2020</a><span class="fn-bracket">]</span></span>
-<p>Van den Berge, K., Roux de Bézieux, H., Street, K., Saelens, W., Cannoodt, R., Saeys, Y., … &amp; Clement, L. (2020).
+<dl class="citation">
+<dt class="label" id="van-den-berge2020"><span class="brackets"><a class="fn-backref" href="#id1">Van_den_Berge2020</a></span></dt>
+<dd><p>Van den Berge, K., Roux de Bézieux, H., Street, K., Saelens, W., Cannoodt, R., Saeys, Y., … &amp; Clement, L. (2020).
 Trajectory-based differential expression analysis for single-cell sequencing data. Nature communications, 11(1), 1-13.</p>
-</div>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

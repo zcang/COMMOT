@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.pp.infer_spatial_information &mdash; commot 0.0.3 documentation</title>
@@ -119,7 +119,7 @@
 <p>Given a pair of spatial data and scRNA-seq data, estimate spatial origin
 of scRNA-seq data and impute gene expression for spatial data <a class="reference internal" href="#cang2020" id="id1"><span>[Cang2020]</span></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata_sc</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix for scRNA-seq data of shape <code class="docutils literal notranslate"><span class="pre">n_obs(sc)</span></code> × <code class="docutils literal notranslate"><span class="pre">n_vars(sc)</span></code>.
 Rows corresponds to cells and columns to genes.</p></li>
@@ -142,7 +142,7 @@ A higher percentage will increase the sparseness of the predicted spatial data d
 <li><p><strong>return_gamma</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to return the optimal transport plan (gamma matrix)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>adata_sc_pred</strong> (<em>anndata.AnnData</em>) – The scRNA-seq data with predicted spatial origins in <code class="docutils literal notranslate"><span class="pre">.obsm['spatial']</span></code>.</p></li>
 <li><p><strong>adata_sp_pred</strong> (<em>anndata.AnnData</em>) – The spatial data with imputed gene expression.</p></li>
@@ -152,14 +152,13 @@ A higher percentage will increase the sparseness of the predicted spatial data d
 </dd>
 </dl>
 <p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="cang2020" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Cang2020</a><span class="fn-bracket">]</span></span>
-<p>Cang, Z., &amp; Nie, Q. (2020). Inferring spatial and signaling
+<dl class="citation">
+<dt class="label" id="cang2020"><span class="brackets"><a class="fn-backref" href="#id1">Cang2020</a></span></dt>
+<dd><p>Cang, Z., &amp; Nie, Q. (2020). Inferring spatial and signaling
 relationships between cells from single cell transcriptomic data.
 Nature communications, 11(1), 1-13.</p>
-</div>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

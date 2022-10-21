@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.tl.group_cluster_communication &mdash; commot 0.0.3 documentation</title>
@@ -126,7 +126,7 @@ pattern.</p>
 or <a class="reference internal" href="commot.tl.cluster_communication_spatial_permutation.html#commot.tl.cluster_communication_spatial_permutation" title="commot.tl.cluster_communication_spatial_permutation"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.cluster_communication_spatial_permutation()</span></code></a> function. The dissimilarities among different ligand-receptor pairs or signaling pathways
 are first quantified which will be used with the leiden clustering algorithm <a class="reference internal" href="#traag2019" id="id1"><span>[Traag2019]</span></a> to cluster these CCC networks.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix with the cluster-cluster communication
 info stored in <code class="docutils literal notranslate"><span class="pre">adata.uns</span></code>.</p></li>
@@ -153,7 +153,7 @@ The algorithm will run until convergence if set to -1.</p></li>
 See <a class="reference internal" href="#schieber2017" id="id3"><span>[Schieber2017]</span></a> for more information.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>communication_clusterid</strong> (<em>np.ndarray</em>) – The group id of the cluster-cluster communications.</p></li>
 <li><p><strong>D</strong> (<em>np.ndarray</em>) – The dissimilarity matrix for the cluster-cluster communications.</p></li>
@@ -162,20 +162,17 @@ See <a class="reference internal" href="#schieber2017" id="id3"><span>[Schieber2
 </dd>
 </dl>
 <p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="schieber2017" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>Schieber2017<span class="fn-bracket">]</span></span>
-<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id3">2</a>)</span>
-<p>Schieber, T. A., Carpi, L., Díaz-Guilera, A., Pardalos,
+<dl class="citation">
+<dt class="label" id="schieber2017"><span class="brackets">Schieber2017</span><span class="fn-backref">(<a href="#id2">1</a>,<a href="#id3">2</a>)</span></dt>
+<dd><p>Schieber, T. A., Carpi, L., Díaz-Guilera, A., Pardalos,
 P. M., Masoller, C., &amp; Ravetti, M. G. (2017). Quantification
 of network structural dissimilarities. Nature communications, 8(1), 1-10.</p>
-</div>
-<div class="citation" id="traag2019" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Traag2019</a><span class="fn-bracket">]</span></span>
-<p>Traag, V. A., Waltman, L., &amp; Van Eck, N. J. (2019).
+</dd>
+<dt class="label" id="traag2019"><span class="brackets"><a class="fn-backref" href="#id1">Traag2019</a></span></dt>
+<dd><p>Traag, V. A., Waltman, L., &amp; Van Eck, N. J. (2019).
 From Louvain to Leiden: guaranteeing well-connected communities. Scientific reports, 9(1), 1-12.</p>
-</div>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

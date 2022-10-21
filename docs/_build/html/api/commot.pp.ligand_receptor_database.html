@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.pp.ligand_receptor_database &mdash; commot 0.0.3 documentation</title>
@@ -117,7 +117,7 @@
 <span class="sig-prename descclassname"><span class="pre">commot.pp.</span></span><span class="sig-name descname"><span class="pre">ligand_receptor_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CellChat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'mouse'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric_delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signaling_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Secreted</span> <span class="pre">Signaling'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.pp.ligand_receptor_database" title="Permalink to this definition"></a></dt>
 <dd><p>Extract ligand-receptor pairs from LR database.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>database</strong> – The name of the ligand-receptor database. Use ‘CellChat’ for CellChatDB <a class="reference internal" href="#jin2021" id="id1"><span>[Jin2021]</span></a> of ‘CellPhoneDB_v4.0’ for CellPhoneDB_v4.0 <a class="reference internal" href="#efremova2020" id="id2"><span>[Efremova2020]</span></a>.</p></li>
 <li><p><strong>species</strong> – The species of the ligand-receptor pairs. Choose between ‘mouse’ and ‘human’.</p></li>
@@ -127,26 +127,24 @@ For example, if the heteromeric receptor (TGFbR1, TGFbR2) will be represented as
 If None, all pairs in the database are returned.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>df_ligrec</strong> – A pandas DataFrame of the LR pairs with the three columns representing the ligand, receptor, and the signaling pathway name, respectively.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>pandas.DataFrame</p>
 </dd>
 </dl>
 <p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="jin2021" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Jin2021</a><span class="fn-bracket">]</span></span>
-<p>Jin, S., Guerrero-Juarez, C. F., Zhang, L., Chang, I., Ramos, R., Kuan, C. H., … &amp; Nie, Q. (2021).
+<dl class="citation">
+<dt class="label" id="jin2021"><span class="brackets"><a class="fn-backref" href="#id1">Jin2021</a></span></dt>
+<dd><p>Jin, S., Guerrero-Juarez, C. F., Zhang, L., Chang, I., Ramos, R., Kuan, C. H., … &amp; Nie, Q. (2021).
 Inference and analysis of cell-cell communication using CellChat. Nature communications, 12(1), 1-20.</p>
-</div>
-<div class="citation" id="efremova2020" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">Efremova2020</a><span class="fn-bracket">]</span></span>
-<p>Efremova, M., Vento-Tormo, M., Teichmann, S. A., &amp; Vento-Tormo, R. (2020).
+</dd>
+<dt class="label" id="efremova2020"><span class="brackets"><a class="fn-backref" href="#id2">Efremova2020</a></span></dt>
+<dd><p>Efremova, M., Vento-Tormo, M., Teichmann, S. A., &amp; Vento-Tormo, R. (2020).
 CellPhoneDB: inferring cell–cell communication from combined expression of multi-subunit ligand–receptor complexes. Nature protocols, 15(4), 1484-1506.</p>
-</div>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.pp.filter_lr_database &mdash; commot 0.0.3 documentation</title>
@@ -117,7 +117,7 @@
 <span class="sig-prename descclassname"><span class="pre">commot.pp.</span></span><span class="sig-name descname"><span class="pre">filter_lr_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_ligrec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric_delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heteromeric_rule</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'min_cell_pct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_cell_pct</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.pp.filter_lr_database" title="Permalink to this definition"></a></dt>
 <dd><p>Filter ligand-receptor pairs.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df_ligrec</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – The pandas dataframe of ligand-receptor database with three columns being ligand, receptor, and pathway name respectively.</p></li>
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The AnnData object of gene expression. Unscaled data (minimum being zero) is expected.</p></li>
@@ -129,10 +129,10 @@
 <li><p><strong>min_cell_pct</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – If filter_criteria is ‘min_cell_pct’, the LR-pairs with both ligand and receptor detected in greater than or equal to min_cell_pct percentage of cells are kepts.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>df_ligrec_filtered</strong> – A pandas DataFrame of the filtered ligand-receptor pairs.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>

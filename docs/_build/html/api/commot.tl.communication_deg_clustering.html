@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.tl.communication_deg_clustering &mdash; commot 0.0.3 documentation</title>
@@ -122,7 +122,7 @@
 <span class="sig-prename descclassname"><span class="pre">commot.tl.</span></span><span class="sig-name descname"><span class="pre">communication_deg_clustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_deg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_yhat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg_clustering_npc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg_clustering_knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deg_clustering_res</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_deg_genes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_cutoff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#commot.tl.communication_deg_clustering" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster the communcation DE genes based on their fitted expression pattern.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>df_deg</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>) – The deg analysis summary data frame obtained by running <code class="docutils literal notranslate"><span class="pre">commot.tl.communication_deg_detection</span></code>.
 Each row corresponds to one tested genes and columns include “waldStat” (Wald statistics), “df” (degrees of freedom), and “pvalue” (p-value of the Wald statistics).</p></li>
@@ -134,7 +134,7 @@ Each row corresponds to one tested genes and columns include “waldStat” (Wal
 <li><p><strong>p_value_cutoff</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – The p-value cutoff for genes to be included in clustering analysis.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>df_deg_clus</strong> (<em>pd.DataFrame</em>) – A data frame of clustered genes.</p></li>
 <li><p><strong>df_yhat_clus</strong> (<em>pd.DataFrame</em>) – The fitted gene expression patterns of the clustered genes</p></li>

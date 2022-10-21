@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>commot.tl.communication_spatial_autocorrelation &mdash; commot 0.0.3 documentation</title>
@@ -125,7 +125,7 @@
 The cell-cell communication should have been computed by the function <a class="reference internal" href="commot.tl.spatial_communication.html#commot.tl.spatial_communication" title="commot.tl.spatial_communication"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.spatial_communication()</span></code></a>.
 The cell-cell communication direction should have been computed by the function <a class="reference internal" href="commot.tl.communication_direction.html#commot.tl.communication_direction" title="commot.tl.communication_direction"><code class="xref py py-func docutils literal notranslate"><span class="pre">commot.tl.communication_direction()</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>adata</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">AnnData</span></code>) – The data matrix with the communication vector fields
 info stored in <code class="docutils literal notranslate"><span class="pre">adata.ubsm</span></code>.</p></li>
@@ -151,7 +151,7 @@ density does not affect the results.</p></li>
 <li><p><strong>n_permutations</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Number of permutations for computing p-values.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
 <li><p><strong>moranI</strong> (<em>np.ndarray</em>) – A vector of moran’s I statistics for corresponding to each key in keys.</p></li>
 <li><p><strong>p_value</strong> (<em>np.ndarray</em>) – The p-values.</p></li>
@@ -160,13 +160,12 @@ density does not affect the results.</p></li>
 </dd>
 </dl>
 <p class="rubric">References</p>
-<div role="list" class="citation-list">
-<div class="citation" id="liu2015" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">Liu2015</a><span class="fn-bracket">]</span></span>
-<p>Liu, Y., Tong, D., &amp; Liu, X. (2015). Measuring spatial
+<dl class="citation">
+<dt class="label" id="liu2015"><span class="brackets"><a class="fn-backref" href="#id1">Liu2015</a></span></dt>
+<dd><p>Liu, Y., Tong, D., &amp; Liu, X. (2015). Measuring spatial
 autocorrelation of vectors. Geographical Analysis, 47(3), 300-319.</p>
-</div>
-</div>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
