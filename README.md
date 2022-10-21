@@ -1,9 +1,9 @@
 # COMMOT
 Screening cell-cell communication in spatial transcriptomics via collective optimal transport 
 
-![PyPI](https://img.shields.io/pypi/v/commot?logo=PyPI)](https://pypi.org/project/commot)
+[![PyPI](https://img.shields.io/pypi/v/commot?logo=PyPI)](https://pypi.org/project/commot)
 ![pytest](https://github.com/zcang/COMMOT/actions/workflows/python-package.yml/badge.svg)
-![Read the Docs](https://readthedocs.org/projects/commot/badge/?version=latest)](https://commot.readthedocs.io/en/latest/)
+[![Read the Docs](https://readthedocs.org/projects/commot/badge/?version=latest)](https://commot.readthedocs.io/en/latest/)
 
 
 ## Installation
