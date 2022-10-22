@@ -48,10 +48,10 @@ Use collective optimal transport to construct CCC networks for the ligand-recept
 ct.tl.spatial_communication(adata,
     database_name='user_database', df_ligrec=df_ligrec, dis_thr=200, heteromeric=True)
 ```
-**Documentation**
+## Documentation
 
-See the documentation at [https://commot.readthedocs.io/en/latest/index.html](https://commot.readthedocs.io/en/latest/index.html) for all the APIs to perform visualization and analyses such as visualizing spatial signaling direction and identifying CCC differentially expressed genes.
+See detailed documentation and examples at [https://commot.readthedocs.io/en/latest/index.html](https://commot.readthedocs.io/en/latest/index.html).
 
-**Reference**
+## References
 
 Cang, Zixuan, Yanxiang Zhao, Axel A. Almet, Adam Stabell, Raul Ramos, Maksim Plikus, Scott X. Atwood, and Qing Nie. "Screening cell-cell communication in spatial transcriptomics via collective optimal transport." bioRxiv (2022): 505185
