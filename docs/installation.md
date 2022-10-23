@@ -38,6 +38,19 @@ BiocManager::install("tradeSeq")
 ```
 We are working on an easier solution of this.
 
+## Installation on Windows
+**rvlib**\
+`rvlib` may need to be installed prior. Install it by
+```
+conda install -c conda-forge rvlib
+```
+
+**pygeos**\
+For Python 3.8+, `pygeos` may need to be uninstalled after installing `commot` due to incompatibilities with `Shapely`
+
+**rasterio**\
+For Python 3.7, `rasterio` may require installation using the appropriate whl files. See this [discussion](https://github.com/rasterio/rasterio/issues/1963#issuecomment-672262445) for installation instructions.
+
 ## References
 <a id="1">[1]</a> 
 Van den Berge, Koen, et al. "Trajectory-based differential expression analysis for single-cell sequencing data." Nature communications 11.1 (2020): 1-13.
