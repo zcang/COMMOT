@@ -173,6 +173,8 @@ def plot_cell_communication(
             V = adata.obsm['commot_receiver_vf-'+vf_name][:,pos_idx]
             signal_sum = adata.obsm['commot-'+database_name+"-sum-receiver"]['r-'+sum_name]
 
+    if background=='cluster' and not cmap in ['Plotly','Light24','Dark24','Alphabet']:
+        cmap='Alphabet'
     if ax is None:
         fig, ax = plt.subplots()
     if normalize_v:
