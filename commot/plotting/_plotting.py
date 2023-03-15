@@ -204,7 +204,7 @@ def plot_cell_communication(
         stream_linewidth = stream_linewidth,
         stream_cutoff_perc = stream_cutoff_perc,
         ax = ax,
-        fig = fig,
+        # fig = fig,
     )
     return ax
 
