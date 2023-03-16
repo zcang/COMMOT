@@ -54,4 +54,4 @@ See detailed documentation and examples at [https://commot.readthedocs.io/en/lat
 
 ## References
 
-Cang, Zixuan, Yanxiang Zhao, Axel A. Almet, Adam Stabell, Raul Ramos, Maksim Plikus, Scott X. Atwood, and Qing Nie. "Screening cell-cell communication in spatial transcriptomics via collective optimal transport." bioRxiv (2022): 505185
+Cang, Z., Zhao, Y., Almet, A.A. et al. Screening cell–cell communication in spatial transcriptomics via collective optimal transport. *Nat Methods* 20, 218–228 (2023). https://doi.org/10.1038/s41592-022-01728-4
