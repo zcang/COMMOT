@@ -8,7 +8,7 @@ pandas==1.4.1
 plotly==5.3.1
 pot==0.8.2
 pysal==2.6.0
-python-igraph==0.9.9
+igraph
 python-louvain==0.15
 scanpy==1.8.2
 scikit-learn==1.0.2
