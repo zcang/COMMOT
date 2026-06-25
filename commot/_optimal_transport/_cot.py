@@ -2,7 +2,29 @@ import numpy as np
 from scipy import sparse
 from sys import getsizeof
 
-from ._unot import unot 
+from ._unot import unot
+
+def _cost_matrix_within_cutoff(M, max_cutoff):
+    """Return a COO sparse matrix containing distances <= max_cutoff.
+
+    Dense M keeps the previous behavior.
+    Sparse M uses only explicitly stored distances, implicit zeros are not
+    treated as valid edges.
+    """
+    if sparse.issparse(M):
+        M = M.tocoo()
+        keep = M.data <= max_cutoff
+        return sparse.coo_matrix(
+            (M.data[keep], (M.row[keep], M.col[keep])),
+            shape=M.shape,
+        )
+
+    M = np.asarray(M)
+    M_row, M_col = np.where(M <= max_cutoff)
+    return sparse.coo_matrix(
+        (M[M_row, M_col], (M_row, M_col)),
+        shape=M.shape,
+    )
 
 def cot_dense(S, D, A, M, cutoff, eps_p=1e-1, eps_mu=None, eps_nu=None, rho=1e1, nitermax=1e4, stopthr=1e-8):
     """ Solve the collective optimal transport problem with distance limits.
@@ -284,8 +306,9 @@ def cot_sparse(S, D, A, M, cutoff, eps_p=1e-1, eps_mu=None, eps_nu=None, rho=1e1
     C_data, C_row, C_col = [], [], []
 
     max_cutoff = cutoff.max()
-    M_row, M_col = np.where(M <= max_cutoff)
-    M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    # M_row, M_col = np.where(M <= max_cutoff)
+    # M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    M_max_sp = _cost_matrix_within_cutoff(M, max_cutoff)
     
     cost_scales = []
     for i in range(ns_s):
@@ -350,8 +373,9 @@ def cot_row_sparse(S, D, A, M, cutoff, eps_p=1e-1, eps_mu=None, eps_nu=None, rho
     n_pos_d, ns_d = D.shape
 
     max_cutoff = cutoff.max()
-    M_row, M_col = np.where(M <= max_cutoff)
-    M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    # M_row, M_col = np.where(M <= max_cutoff)
+    # M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    M_max_sp = _cost_matrix_within_cutoff(M, max_cutoff)
     
     P_expand = {}
     for i in range(ns_s):
@@ -421,8 +445,9 @@ def cot_col_sparse(S, D, A, M, cutoff, eps_p=1e-1, eps_mu=None, eps_nu=None, rho
     n_pos_d, ns_d = D.shape
 
     max_cutoff = cutoff.max()
-    M_row, M_col = np.where(M <= max_cutoff)
-    M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    # M_row, M_col = np.where(M <= max_cutoff)
+    # M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    M_max_sp = _cost_matrix_within_cutoff(M, max_cutoff)
     
     P_expand = {}
     for j in range(ns_d):
@@ -490,8 +515,9 @@ def cot_blk_sparse(S, D, A, M, cutoff, eps_p=1e-1, eps_mu=None, eps_nu=None, rho
     n_pos_d, ns_d = D.shape
 
     max_cutoff = cutoff.max()
-    M_row, M_col = np.where(M <= max_cutoff)
-    M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    # M_row, M_col = np.where(M <= max_cutoff)
+    # M_max_sp = sparse.coo_matrix((M[M_row,M_col], (M_row,M_col)), shape=M.shape)
+    M_max_sp = _cost_matrix_within_cutoff(M, max_cutoff)
 
     P_expand = {}
     for i in range(ns_s):
